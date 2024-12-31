@@ -9,7 +9,7 @@ const HomePage = () => {
   const [message, setMessage] = useState('');
   useEffect(() => {
     // Spring Boot 서버에서 데이터를 가져옵니다.
-    fetch('http://localhost:8080/api/hello')
+    fetch('https://localhost:8080/api/hello')
     .then((response) => response.text())
     .then((data) => setMessage(data))
     .catch((error) => console.error('Error fetching data:', error));

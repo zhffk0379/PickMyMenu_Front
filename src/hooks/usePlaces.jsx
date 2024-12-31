@@ -11,7 +11,7 @@ const usePlaces = (location) => {
       if (!location) return;
 
       try {
-        const data = await placeSearchService("감자탕", location.latitude, location.longitude);
+        const data = await placeSearchService("떡볶이", location.latitude, location.longitude);
         setPlaces(data.data.documents);
       } catch (err) {
         setError(err.message);
