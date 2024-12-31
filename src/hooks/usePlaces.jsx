@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { placeSearchService } from '../services/map/PlaceSearchService';
 
-const usePlaces = (location) => {
+const usePlaces = (keyword, location) => {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadPlaces = async () => {
-      if (!location) return;
+      if (!keyword || !location) return;
 
       try {
-        const data = await placeSearchService("떡볶이", location.latitude, location.longitude);
+        const data = await placeSearchService(keyword, location.latitude, location.longitude);
         setPlaces(data.data.documents);
       } catch (err) {
         setError(err.message);
@@ -21,7 +21,7 @@ const usePlaces = (location) => {
     };
 
     loadPlaces();
-  }, [location]);
+  }, [keyword, location]);
 
   return { places, loading, error };
 };
