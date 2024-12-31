@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080"
+const API_URL = "http://localhost:8088"
 
 export const placeSearchService = async (keyword, lat, lng) => {
   try {

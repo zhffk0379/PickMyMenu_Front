@@ -64,6 +64,7 @@ storybook-static/
 
 # ESLint cache (if using ESLint)
 .eslintcache
+.eslintrc.js
 
 # Prettier cache (if using Prettier)
 .prettiercache
