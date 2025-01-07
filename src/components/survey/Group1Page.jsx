@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {Button, Col, Container, Row} from "react-bootstrap"
 import axios from 'axios';
 
 function Group1Page() {
@@ -8,7 +7,6 @@ function Group1Page() {
     const navigate = useNavigate();
 
     useEffect(() => {
-
         axios.get('http://localhost:8088/group1/random')
             .then((response) => {
                 setGroup1Data(response.data.selected);
@@ -20,42 +18,16 @@ function Group1Page() {
     };
 
     return (
-      <Container className="mt-5">
-          <Row className="text-center mb-4">
-              <Col>
-                  <h2 className="fw-bold text-dark">첫번째 선택지</h2>
-              </Col>
-          </Row>
-          <Row>
-              {group1Data.map((item, index) => (
-                <Col key={item.id} xs={12} md={6} className="mb-4">
-                    <div
-                      onClick={() => handleSelection(item)}
-                      className="choice-card shadow-lg rounded-4 p-5 h-100 d-flex align-items-center justify-content-center"
-                      style={{
-                          cursor: 'pointer',
-                          fontSize: '4rem',
-                          minHeight: '300px',
-                          background: `linear-gradient(135deg, ${index === 0 ? '#6a11cb' : '#2575fc'} 0%,
-                           ${index === 0 ? '#2575fc' : '#6a11cb'} 100%)`,
-                          color: 'white',
-                          transition: 'transform 0.3s ease',
-                          textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
-                      }}
-                      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                    >
-                        <div>
-                            <div className="mb-3">
-                                <i className={`fas fa-${index === 0 ? 'heart' : 'star'} fa-3x`}></i>
-                            </div>
-                            {item.name}
-                        </div>
-                    </div>
-                </Col>
-              ))}
-          </Row>
-      </Container>
+        <div>
+            <h2>첫 번째 선택지를 고르세요!</h2>
+            <div>
+                {group1Data.map((item) => (
+                    <button key={item.id} onClick={() => handleSelection(item)}>
+                        {item.name}
+                    </button>
+                ))}
+            </div>
+        </div>
     );
 }
 

@@ -7,7 +7,7 @@
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
     "dotenv": "^16.4.7",
-    "framer-motion": "^11.15.0",
+    "framer-motion": "^11.16.0",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.7",
     "react-dom": "^18.3.1",
@@ -38,6 +38,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ],
-    "proxy": "http://localhost:8088"
+    "proxy": "http://:8088"
   }
 }

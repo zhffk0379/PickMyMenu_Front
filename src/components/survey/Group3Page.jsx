@@ -10,9 +10,10 @@ function Group3Page() {
     const [keyword, setKeyword] = useState("");  // keyword 상태 추가
     const navigate = useNavigate();
     const location = useLocation();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        axios.get('http://localhost:8088/group3/random', {
+        axios.get(`${apiUrl}/group3/random`, {
             params: { previousSelections: location.state.previousSelections }
         })
             .then((response) => {
@@ -25,7 +26,7 @@ function Group3Page() {
 
         setLoading(true);
 
-        axios.get('http://localhost:8088/gemini/question', { params: { prompt: fullPrompt } })
+        axios.get(`${apiUrl}/gemini/question`, { params: { prompt: fullPrompt } })
             .then((response) => {
                 const foodNames = parseFoodRecommendations(response.data);
                 setFoodRecommendations(foodNames);
