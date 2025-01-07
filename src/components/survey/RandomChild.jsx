@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import {useLocation, useNavigate} from 'react-router-dom';
+import axios from "axios";
 
-function Group3Page() {
-    const [group3Data, setGroup3Data] = useState([]);
+function RandomChild() {
+    const location = useLocation();  // 이전 페이지에서 전달된 데이터
+    const { parentCategory, childCategories, previousSelections } = location.state || {};
     const [loading, setLoading] = useState(false);
-    const [foodRecommendations, setFoodRecommendations] = useState([]);
-    const [keyword, setKeyword] = useState("");  // keyword 상태 추가
     const navigate = useNavigate();
-    const location = useLocation();
+    const [foodRecommendations, setFoodRecommendations] = useState([]);
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    useEffect(() => {
-        axios.get(`${apiUrl}/group3/random`, {
-            params: { previousSelections: location.state.previousSelections }
-        })
-            .then((response) => {
-                setGroup3Data(response.data.selected);
-            });
-    }, [location.state.previousSelections]);
-
     const handleSelection = (selection) => {
-        const fullPrompt = `${location.state.previousSelections},${selection.name}`;
+        const fullPrompt = `${previousSelections},${selection.category}`;  // 이전 선택과 현재 선택을 포함
 
         setLoading(true);
 
@@ -38,8 +28,27 @@ function Group3Page() {
             });
     };
 
+
     const parseFoodRecommendations = (text) => {
-        const regex = /\*\*(.*?)\*\*/g;
+        // 숫자와 점, 공백 제거 후 음식명만 추출하고 괄호 안의 내용도 제거
+        const regex = /\d+\.\s*([^\(\n]+)/g;
+        let matches;
+        const foodNames = [];
+
+        while ((matches = regex.exec(text)) !== null) {
+            // 첫 번째 그룹이 음식명
+            let foodName = matches[1].trim();
+            foodNames.push(foodName);
+        }
+
+        return foodNames;
+    };
+
+
+
+    /*
+    const parseFoodRecommendations = (text) => {
+        const regex = /\*\*(.*?)\*\*!/g;
         let matches;
         const foodNames = [];
 
@@ -53,6 +62,8 @@ function Group3Page() {
         return foodNames;
     };
 
+    */
+
     const handleKeywordClick = (selectedKeyword) => {
         // 선택한 keyword를 MapPage로 전달
         navigate('/map', { state: { keyword: selectedKeyword } });
@@ -60,13 +71,13 @@ function Group3Page() {
 
     return (
         <div>
-            <h2>마지막 선택지를 고르세요!</h2>
+            <h2>두 번째 선택지를 고르세요!</h2>
             <div>
-                {group3Data.map((item) => (
-                    <button key={item.id} onClick={() => handleSelection(item)}>
-                        {item.name}
-                    </button>
-                ))}
+                {childCategories.map((item) => (
+                        <button key={item.id} onClick={() => handleSelection(item)}>
+                            {item.category}
+                        </button>
+                    ))}
             </div>
 
             {loading && <p>메뉴 추천중...</p>}
@@ -90,4 +101,4 @@ function Group3Page() {
     );
 }
 
-export default Group3Page;
+export default RandomChild;

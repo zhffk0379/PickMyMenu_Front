@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8088"
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const placeSearchService = async (keyword, lat, lng) => {
   try {
-    const response = await axios.get(API_URL + "/v1/map/placeSearch", {
+    const response = await axios.get(`${apiUrl}/v1/map/placeSearch`, {
       params: {
         query: keyword + " 전문점",
         x: lng,
