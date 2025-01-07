@@ -18,7 +18,7 @@ const MapPage = () => {
 
     return (
         <div>
-            <h1>Places Near You</h1>
+            <h1>결과</h1>
             <KakaoMap places={places} center={location} />
         </div>
     );

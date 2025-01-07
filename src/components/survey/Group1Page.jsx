@@ -5,10 +5,9 @@ import axios from 'axios';
 function Group1Page() {
     const [group1Data, setGroup1Data] = useState([]);
     const navigate = useNavigate();
-    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        axios.get(`${apiUrl}/group1/random`)
+        axios.get('http://localhost:8088/group1/random')
             .then((response) => {
                 setGroup1Data(response.data.selected);
             });

@@ -76,4 +76,3 @@ storybook-static/
 # Firebase local emulators and config (if using Firebase)
 .firebase/
 
-package-lock.json

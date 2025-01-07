@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import {Col, Container, Row} from "react-bootstrap";
 
 function Group3Page() {
     const [group3Data, setGroup3Data] = useState([]);
@@ -59,34 +60,80 @@ function Group3Page() {
     };
 
     return (
-        <div>
-            <h2>마지막 선택지를 고르세요!</h2>
-            <div>
-                {group3Data.map((item) => (
-                    <button key={item.id} onClick={() => handleSelection(item)}>
-                        {item.name}
-                    </button>
-                ))}
-            </div>
-
-            {loading && <p>메뉴 추천중...</p>}
-
-            <div>
-                {foodRecommendations.length > 0 && (
-                    <div>
-                        <h3>추천된 음식</h3>
-                        {foodRecommendations.map((food, index) => (
-                            <button
-                                key={index}
-                                onClick={() => handleKeywordClick(food)}  // 클릭 시 MapPage로 이동
-                            >
-                                {food}
-                            </button>
-                        ))}
+      <Container className="mt-5">
+          <Row className="text-center mb-4">
+              <Col>
+                  <h2 className="fw-bold text-dark">마지막 선택지</h2>
+              </Col>
+          </Row>
+          <Row>
+              {group3Data.map((item, index) => (
+                <Col key={item.id} xs={12} md={6} className="mb-4">
+                    <div
+                      onClick={() => handleSelection(item)}
+                      className="choice-card shadow-lg rounded-4 p-5 h-100 d-flex align-items-center justify-content-center"
+                      style={{
+                          cursor: 'pointer',
+                          fontSize: '4rem',
+                          minHeight: '300px',
+                          background: `linear-gradient(135deg, ${index === 0 ? '#6a11cb' : '#2575fc'} 0%, ${index === 0 ? '#2575fc' : '#6a11cb'} 100%)`,
+                          color: 'white',
+                          transition: 'transform 0.3s ease',
+                          textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                      }}
+                      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                        <div>
+                            <div className="mb-3">
+                                <i className={`fas fa-${index === 0 ? 'heart' : 'star'} fa-3x`}></i>
+                            </div>
+                            {item.name}
+                        </div>
                     </div>
-                )}
-            </div>
-        </div>
+                </Col>
+              ))}
+          </Row>
+          <Row className="text-center mb-4">
+              <Col>
+                  <h2 className="fw-bold text-dark">
+                      {loading && <p>메뉴 추천중...</p>}
+                      {!loading && <p>추천된 음식</p>}
+                  </h2>
+              </Col>
+          </Row>
+          {foodRecommendations.length > 0 && (
+            <Row>
+                {foodRecommendations.map((item, index) => (
+                  <Col key={item} xs={12} md={4} className="mb-4">
+                      <div
+                        onClick={() => handleKeywordClick(item)}
+                        className="choice-card shadow-lg rounded-4 p-5 h-100 d-flex align-items-center justify-content-center"
+                        style={{
+                            cursor: 'pointer',
+                            fontSize: '3rem',
+                            minHeight: '300px',
+                            background: `linear-gradient(135deg, ${index === 0 ? '#6a11cb' : '#2575fc'} 0%,
+                             ${index === 0 ? '#2575fc' : '#6a11cb'} 100%)`,
+                            color: 'white',
+                            transition: 'transform 0.3s ease',
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                      >
+                          <div>
+                              <div className="mb-3">
+                                  <i className={`fas fa-${index === 0 ? 'heart' : 'star'} fa-3x`}></i>
+                              </div>
+                              {item}
+                          </div>
+                      </div>
+                  </Col>
+                ))}
+            </Row>
+          )}
+      </Container>
     );
 }
 

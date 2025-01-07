@@ -82,7 +82,7 @@ const KakaoMap = ({ places, center }) => {
 
   return (
     <div style={{position: "relative", width: "100%", height: "100vh"}}>
-      <div ref={mapRef} style={{width: '100%', height: '400px'}}/>
+      <div ref={mapRef} style={{width: '95%', height: '400px', margin: "0 40px"}}/>
 
       {/* 슬라이드 패널 */}
       <motion.div
