@@ -21,7 +21,7 @@ const HomePage = () => {
             <h1>SpringBoot API TEST</h1>
             <h1>왜 안나오냐{process.env.REACT_APP_NAVER_MAP_CLIENT_ID}</h1>
             <p>{message}</p>  {/* 서버에서 받은 메시지를 화면에 출력 */}
-            <button onClick={() => window.location.href = '/group1'}>음식 추천받으러 가자</button>
+            <button onClick={() => window.location.href = '/parent'}>음식 추천받기</button>
         </div>
     );
 };
