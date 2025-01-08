@@ -26,7 +26,7 @@ function Group3Page() {
 
         setLoading(true);
 
-        axios.get(`${apiUrl}/gemini/question`, { params: { prompt: fullPrompt } })
+        axios.get(`${apiUrl}/gemini/2`, { params: { prompt: fullPrompt } })
         .then((response) => {
             const foodNames = parseFoodRecommendations(response.data);
             setFoodRecommendations(foodNames);
