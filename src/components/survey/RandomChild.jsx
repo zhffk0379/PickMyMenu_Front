@@ -9,13 +9,16 @@ function RandomChild() {
     const { parentCategory, childData } = location.state || {}; // 전달받은 데이터
 
     useEffect(() => {
-        console.log(location);
+        // console.log(parentCategory);
+        console.log(childData);
     }, []);
 
     const handleSelection = (selection) => {
         // 세 번째 페이지로 이동하면서 선택된 두 번째 옵션을 전달
+        console.log("selection.category", selection);
+        console.log("parentCategory", parentCategory);
         navigate('/result', {
-            state: { parentCategory, childCategory: selection.category }
+            state: { parentCategory, childCategory: selection }
         });
     };
 
