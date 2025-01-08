@@ -7,10 +7,11 @@ function Group2Page() {
     const [group2Data, setGroup2Data] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         console.log("location", location);
-        axios.get('http://localhost:8088/group2/random', {
+        axios.get(`${apiUrl}/group1/random`, {
             params: { previousSelections: location.state.previousSelections }
         })
         .then((response) => {

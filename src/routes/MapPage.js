@@ -18,7 +18,6 @@ const MapPage = () => {
 
     return (
         <div>
-            <h1>결과</h1>
             <KakaoMap places={places} center={location} />
         </div>
     );
