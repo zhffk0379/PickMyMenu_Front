@@ -9,10 +9,12 @@ function RandomParent() {
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
 
+
+
     useEffect(() => {
         axios.get(`${apiUrl}/random/parent`)
             .then((response) => {
-                setGroup1Data(response.data);  // API에서 받은 목록을 group1Data에 저장
+                setGroup1Data(response.data); // API에서 받은 목록을 group1Data에 저장
             })
             .catch((error) => {
                 console.error("데이터를 가져오는 중 오류가 발생했습니다: ", error);
@@ -25,8 +27,7 @@ function RandomParent() {
                 navigate('/children', {
                     state: {
                         parentCategory: selection.category,
-                        childCategories: response.data,
-                        previousSelections: selection.category
+                        childData: response.data // 자식 데이터
                     }
                 });
             })

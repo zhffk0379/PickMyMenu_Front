@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const KakaoMap = ({ places, center }) => {
     const mapRef = useRef(null);
     const [selectedPlaceUrl, setSelectedPlaceUrl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const location = useLocation();
+    const { keyword } = location.state || {};  // state가 없으면 빈 객체로 처리
+    const navigate = useNavigate();
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -79,8 +83,15 @@ const KakaoMap = ({ places, center }) => {
         };
     }, [places, center]);
 
+
+    const handleReselect = () => {
+        navigate('/parent'); // "다시 선택하기" 버튼 클릭 시 /parent 페이지로 이동
+    };
+
+
+
     return (
-        <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+        <div style={{position: "relative", width: "100%", height: "100vh"}}>
             {/* 지도 컨테이너 */}
             <div
                 ref={mapRef}
@@ -91,15 +102,37 @@ const KakaoMap = ({ places, center }) => {
                     margin: "0 auto"
                 }}
             />
+            <p></p>
+            <h2>선택한 메뉴: {keyword}</h2>
+
+            {/* "다시 선택하기" 버튼 */}
+            <button
+                onClick={handleReselect}
+                style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    padding: "10px 20px",
+                    backgroundColor: "#007bff",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    zIndex: 10,
+                    fontSize: "16px",
+                }}
+            >
+                다시 선택하기
+            </button>
 
             {/* 전체화면 모달 */}
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 50 }}
-                        transition={{ type: "spring", stiffness: 100 }}
+                        initial={{opacity: 0, y: 50}}
+                        animate={{opacity: 1, y: 0}}
+                        exit={{opacity: 0, y: 50}}
+                        transition={{type: "spring", stiffness: 100}}
                         style={{
                             position: "fixed",
                             top: 0,
@@ -146,11 +179,11 @@ const KakaoMap = ({ places, center }) => {
                             {selectedPlaceUrl ? (
                                 <iframe
                                     src={selectedPlaceUrl}
-                                    style={{ width: "100%", height: "100%", border: "none" }}
+                                    style={{width: "100%", height: "100%", border: "none"}}
                                     title="카카오맵 상세 정보"
                                 />
                             ) : (
-                                <p style={{ textAlign: "center", marginTop: "20px" }}>선택된 장소가 없습니다.</p>
+                                <p style={{textAlign: "center", marginTop: "20px"}}>선택된 장소가 없습니다.</p>
                             )}
                         </div>
                     </motion.div>

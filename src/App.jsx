@@ -8,6 +8,7 @@ import Group3Page from "./components/survey/Group3Page";
 import RandomParent from "./components/survey/RandomParent";
 import RandomChild from "./components/survey/RandomChild";
 import Layout from "./components/layout/Layout";
+import SurveyResult from "./components/survey/SurveyResult";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/group3" element={<Group3Page />} />
           <Route path="/parent" element={<RandomParent />} />
           <Route path="/children" element={<RandomChild />} />
+          <Route path="/result" element={<SurveyResult />} />
         </Routes>
       </Layout>
     </Router>
