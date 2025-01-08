@@ -12,8 +12,7 @@ function SurveyResult() {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        console.log(`${parentCategory}, ${childCategory}`);
-        const fullPrompt = `${parentCategory}, ${childCategory}`;
+        const fullPrompt = `${parentCategory.category}, ${childCategory.category}`;
         setLoading(true);
 
         axios.get(`${apiUrl}/gemini/question`, { params: { prompt: fullPrompt } })

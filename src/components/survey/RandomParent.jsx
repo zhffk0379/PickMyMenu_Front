@@ -24,9 +24,10 @@ function RandomParent() {
     const handleSelection = (selection) => {
         axios.get(`${apiUrl}/random/child?parentId=${selection.id}`)
             .then((response) => {
+                var chooseData = group1Data.find(data => data.id === selection.id);
                 navigate('/children', {
                     state: {
-                        parentCategory: selection.category,
+                        parentCategory: chooseData,
                         childData: response.data // 자식 데이터
                     }
                 });
