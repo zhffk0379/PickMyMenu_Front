@@ -10,15 +10,14 @@ function Group3Page() {
     const [keyword, setKeyword] = useState("");  // keyword 상태 추가
     const navigate = useNavigate();
     const location = useLocation();
-    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        axios.get(`${apiUrl}/group3/random`, {
+        axios.get('http://localhost:8088/group3/random', {
             params: { previousSelections: location.state.previousSelections }
         })
-            .then((response) => {
-                setGroup3Data(response.data.selected);
-            });
+        .then((response) => {
+            setGroup3Data(response.data.selected);
+        });
     }, [location.state.previousSelections]);
 
     const handleSelection = (selection) => {
@@ -26,17 +25,17 @@ function Group3Page() {
 
         setLoading(true);
 
-        axios.get(`${apiUrl}/gemini/question`, { params: { prompt: fullPrompt } })
-            .then((response) => {
-                const foodNames = parseFoodRecommendations(response.data);
-                setFoodRecommendations(foodNames);
-            })
-            .catch((error) => {
-                console.error('API 호출 오류', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        axios.get('http://localhost:8088/gemini/question', { params: { prompt: fullPrompt } })
+        .then((response) => {
+            const foodNames = parseFoodRecommendations(response.data);
+            setFoodRecommendations(foodNames);
+        })
+        .catch((error) => {
+            console.error('API 호출 오류', error);
+        })
+        .finally(() => {
+            setLoading(false);
+        });
     };
 
     const parseFoodRecommendations = (text) => {
@@ -76,7 +75,8 @@ function Group3Page() {
                           cursor: 'pointer',
                           fontSize: '4rem',
                           minHeight: '300px',
-                          background: `linear-gradient(135deg, ${index === 0 ? '#6a11cb' : '#2575fc'} 0%, ${index === 0 ? '#2575fc' : '#6a11cb'} 100%)`,
+                          background: `linear-gradient(135deg, ${index === 0 ? '#6a11cb' : '#2575fc'} 0%,
+                           ${index === 0 ? '#2575fc' : '#6a11cb'} 100%)`,
                           color: 'white',
                           transition: 'transform 0.3s ease',
                           textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
