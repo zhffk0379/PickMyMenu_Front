@@ -71,10 +71,6 @@ const KakaoMap = ({ places, center }) => {
             setIsPanelOpen(true);
             customOverlay.setMap(map);
           });
-          // window.kakao.maps.event.addListener(map, "click", () => {
-          //   customOverlay.setMap(null);
-          // })
-
         });
       });
     };
