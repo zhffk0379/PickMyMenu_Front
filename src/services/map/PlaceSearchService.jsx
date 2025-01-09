@@ -12,6 +12,7 @@ export const placeSearchService = async (keyword, lat, lng) => {
       },
     });
 
+    console.log(response.data);
     return response.data; // 검색 결과 반환
   } catch (error) {
     console.error("검색 API 호출 중 오류:", error);

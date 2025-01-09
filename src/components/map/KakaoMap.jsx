@@ -12,24 +12,24 @@ const KakaoMap = ({ places, center }) => {
     const { keyword } = location.state || {};  // state가 없으면 빈 객체로 처리
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // 이미지 크롤링
-        const fetchPlaceImages = async () => {
-            const updatedPlaceImages = {};
-            for (const place of places) {
-                try {
-                    const response = await axios.get(`http://localhost:9005/placeImageCrawl?query=${place.id}`);
-                    updatedPlaceImages[place.id] = response.data.image_url || null;
-                } catch (error) {
-                    console.error("Error fetching image:", error);
-                    updatedPlaceImages[place.id] = null;
-                }
-            }
-            setPlaceImages(updatedPlaceImages);  // 이미지 URL 저장
-        };
-
-        fetchPlaceImages();
-    }, [places]);
+    // useEffect(() => {
+    //     // 이미지 크롤링
+    //     const fetchPlaceImages = async () => {
+    //         const updatedPlaceImages = {};
+    //         for (const place of places) {
+    //             try {
+    //                 const response = await axios.get(`http://localhost:9005/placeImageCrawl?query=${place.id}`);
+    //                 updatedPlaceImages[place.id] = response.data.image_url || null;
+    //             } catch (error) {
+    //                 console.error("Error fetching image:", error);
+    //                 updatedPlaceImages[place.id] = null;
+    //             }
+    //         }
+    //         setPlaceImages(updatedPlaceImages);  // 이미지 URL 저장
+    //     };
+    //
+    //     fetchPlaceImages();
+    // }, [places]);
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -149,8 +149,8 @@ const KakaoMap = ({ places, center }) => {
                                     overflow: 'hidden',
                                     marginRight: '10px'
                                 }}>
-                                    {placeImages[place.id] ? (
-                                        <img src={placeImages[place.id]} alt={place.place_name}
+                                    {place.image_url ? (
+                                        <img src={place.image_url} alt={place.place_name}
                                              style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
                                     ) : (
                                         <div style={{
@@ -161,7 +161,7 @@ const KakaoMap = ({ places, center }) => {
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             color: '#fff',
-                                        }}>이미지 없음</div>
+                                        }}>None</div>
                                     )}
                                 </div>
                                 <div>
