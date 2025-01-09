@@ -12,7 +12,7 @@ const HomePage = () => {
       <Link to={"/parent"} className={"recommendation-link"}>
         음식 추천2
       </Link>
-      <Link to={"/test"} className={"recommendation-link"}>
+      <Link to={"/ranking"} className={"recommendation-link"}>
         순위
       </Link>
     </div>
