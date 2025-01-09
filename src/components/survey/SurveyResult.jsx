@@ -43,6 +43,9 @@ function SurveyResult() {
 
 
     const handleKeywordClick = (selectedKeyword) => {
+        console.log("parentCategory", parentCategory);
+        console.log("childCategory", childCategory);
+        console.log("selectedKeyword", selectedKeyword);
         // 먼저 POST 요청을 보냄
         axios.post(`${apiUrl}/survey/collect`, {
             parentCategory: parentCategory,
