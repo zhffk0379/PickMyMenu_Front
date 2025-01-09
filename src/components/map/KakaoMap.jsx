@@ -1,14 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';  // axios 추가
 
 const KakaoMap = ({ places, center }) => {
     const mapRef = useRef(null);
     const [selectedPlaceUrl, setSelectedPlaceUrl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [placeImages, setPlaceImages] = useState({});  // 각 장소의 이미지 URL을 저장
     const location = useLocation();
     const { keyword } = location.state || {};  // state가 없으면 빈 객체로 처리
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // 이미지 크롤링
+        const fetchPlaceImages = async () => {
+            const updatedPlaceImages = {};
+            for (const place of places) {
+                try {
+                    const response = await axios.get(`http://localhost:9005/placeImageCrawl?query=${place.id}`);
+                    updatedPlaceImages[place.id] = response.data.image_url || null;
+                } catch (error) {
+                    console.error("Error fetching image:", error);
+                    updatedPlaceImages[place.id] = null;
+                }
+            }
+            setPlaceImages(updatedPlaceImages);  // 이미지 URL 저장
+        };
+
+        fetchPlaceImages();
+    }, [places]);
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -71,7 +92,6 @@ const KakaoMap = ({ places, center }) => {
                         if (place.place_url.startsWith("http://")) {
                             place.place_url = place.place_url.replace("http://", "https://");
                             place.place_url = place.place_url.replace(".com/", ".com/m/");
-
                             console.log(place.place_url);
                         }
                         setSelectedPlaceUrl(place.place_url);
@@ -83,29 +103,80 @@ const KakaoMap = ({ places, center }) => {
         };
     }, [places, center]);
 
-
     const handleReselect = () => {
         navigate('/parent'); // "다시 선택하기" 버튼 클릭 시 /parent 페이지로 이동
     };
 
-
+    const handlePlaceClick = (place) => {
+        setSelectedPlaceUrl(place.place_url);
+        setIsModalOpen(true);
+    };
 
     return (
-        <div style={{position: "relative", width: "100%", height: "100vh"}}>
-            {/* 지도 컨테이너 */}
-            <div
-                ref={mapRef}
-                style={{
-                    width: '95%',
-                    height: '80vh',
-                    maxWidth: '1200px',
-                    margin: "0 auto"
-                }}
-            />
-            <p></p>
-            <h2>선택한 메뉴: {keyword}</h2>
+        <div style={{display: "flex", width: "100%", height: "100vh"}}>
+            <div style={{
+                width: '35%',
+                height: '100%',
+                overflowY: 'auto',
+                padding: '20px',
+                boxSizing: 'border-box',
+                position: 'relative',
+                zIndex: 10,
+            }}>
+                <h3 style={{textAlign: 'center', marginBottom: '15px', fontSize: '1.2em'}}>'{keyword}' 검색 결과</h3>
+                <ul style={{listStyle: 'none', padding: 0}}>
+                    {places.map((place, index) => {
+                        return (
+                            <li
+                                key={index}
+                                onClick={() => handlePlaceClick(place)}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '15px',
+                                    marginBottom: '12px',
+                                    border: '1px solid #ddd',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    backgroundColor: '#f9f9f9',
+                                    transition: '0.3s',
+                                }}
+                            >
+                                <div style={{
+                                    width: '50px',
+                                    height: '50px',
+                                    borderRadius: '50%',
+                                    overflow: 'hidden',
+                                    marginRight: '10px'
+                                }}>
+                                    {placeImages[place.id] ? (
+                                        <img src={placeImages[place.id]} alt={place.place_name}
+                                             style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
+                                    ) : (
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            backgroundColor: '#ddd',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            color: '#fff',
+                                        }}>이미지 없음</div>
+                                    )}
+                                </div>
+                                <div>
+                                    <div style={{fontWeight: 'bold', fontSize: '1em'}}>{place.place_name}</div>
+                                    <div style={{fontSize: '0.9em', color: '#555'}}>{place.address_name}</div>
+                                    <div style={{fontSize: '0.8em', color: '#888'}}>{place.phone}</div>
+                                </div>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
 
-            {/* "다시 선택하기" 버튼 */}
+            <div ref={mapRef} style={{width: '65%', height: '100%'}}/>
+
             <button
                 onClick={handleReselect}
                 style={{
@@ -125,7 +196,6 @@ const KakaoMap = ({ places, center }) => {
                 다시 선택하기
             </button>
 
-            {/* 전체화면 모달 */}
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
@@ -157,7 +227,6 @@ const KakaoMap = ({ places, center }) => {
                                 position: "relative",
                             }}
                         >
-                            {/* 닫기 버튼 */}
                             <button
                                 onClick={() => setIsModalOpen(false)}
                                 style={{
@@ -167,23 +236,23 @@ const KakaoMap = ({ places, center }) => {
                                     border: "none",
                                     background: "transparent",
                                     fontSize: "40px",
-                                    color: "black", // X 버튼을 검정색으로
+                                    color: "black",
                                     cursor: "pointer",
-                                    textShadow: "1px 1px 3px white", // 하얀색 그림자 효과 추가
+                                    textShadow: "1px 1px 3px white",
                                 }}
                             >
                                 &times;
                             </button>
 
-                            {/* 상세 정보 */}
                             {selectedPlaceUrl ? (
                                 <iframe
                                     src={selectedPlaceUrl}
                                     style={{width: "100%", height: "100%", border: "none"}}
-                                    title="카카오맵 상세 정보"
+                                    title="Place Info"
+                                    frameBorder="0"
                                 />
                             ) : (
-                                <p style={{textAlign: "center", marginTop: "20px"}}>선택된 장소가 없습니다.</p>
+                                <p>장소 정보가 없습니다.</p>
                             )}
                         </div>
                     </motion.div>
