@@ -10,7 +10,6 @@ import RandomChild from "./components/survey/RandomChild";
 import Layout from "./components/layout/Layout";
 import SurveyResult from "./components/survey/SurveyResult";
 import Ranking from "./routes/Ranking";
-import Restaurant from "./components/restaurant/Restaurant";
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
           <Route path="/children" element={<RandomChild />} />
           <Route path="/result" element={<SurveyResult />} />
           <Route path="/ranking" element={<Ranking />} />
-          <Route path="/restaurant" element={<Restaurant />} />
         </Routes>
       </Layout>
     </Router>
