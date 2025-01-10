@@ -54,9 +54,10 @@ function SurveyResult() {
         })
             .then((response) => {
                 console.log('성공적으로 저장되었습니다:', response);
+                const resultMenuId = response.data.data;
 
                 // 요청이 성공하면 MapPage로 이동
-                navigate('/map', { state: { keyword: selectedKeyword } });
+                navigate('/map', { state: { keyword: selectedKeyword, resultMenuId: resultMenuId } });
             })
             .catch((error) => {
                 console.error('POST 요청 중 오류 발생:', error);
