@@ -2,6 +2,7 @@ import './App.css';
 import React from "react";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {HomePage, MapPage} from './routes';
+import {Login, SignUp} from './components/member';
 import Group1Page from "./components/survey/Group1Page";
 import Group2Page from "./components/survey/Group2Page";
 import Group3Page from "./components/survey/Group3Page";
@@ -23,6 +24,8 @@ function App() {
           <Route path="/parent" element={<RandomParent />} />
           <Route path="/children" element={<RandomChild />} />
           <Route path="/result" element={<SurveyResult />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Layout>
     </Router>
