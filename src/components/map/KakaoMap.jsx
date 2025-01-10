@@ -98,7 +98,8 @@ const KakaoMap = ({ places, center }) => {
         setIsModalOpen(true);
     };
 
-    const handleApiCall = (place, resultMenuId) => {
+    const handleApiCall = (place) => {
+      console.log("resultMenuId", resultMenuId);
         const requestData = {
             ...place,
             resultMenuId: resultMenuId

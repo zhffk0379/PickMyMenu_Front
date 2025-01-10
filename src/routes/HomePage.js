@@ -6,7 +6,7 @@ const HomePage = () => {
 
   return (
     <div className={"home-container"}>
-      <Link to={"/group1"} className={"recommendation-link"}>
+      <Link to={"/choice"} className={"recommendation-link"}>
         음식 추천
       </Link>
       <Link to={"/parent"} className={"recommendation-link"}>

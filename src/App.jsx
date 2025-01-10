@@ -10,6 +10,8 @@ import RandomChild from "./components/survey/RandomChild";
 import Layout from "./components/layout/Layout";
 import SurveyResult from "./components/survey/SurveyResult";
 import Ranking from "./routes/Ranking";
+import ChoicePage from "./routes/ChoicePage";
+import Restaurant from "./components/restaurant/Restaurant";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} /> {/* 메인 페이지 */}
           <Route path="/map" element={<MapPage />} /> {/* 지도 페이지 */}
+
+          <Route path="/choice" element={<ChoicePage />} />
           <Route path="/group1" element={<Group1Page />} />
           <Route path="/group2" element={<Group2Page />} />
           <Route path="/group3" element={<Group3Page />} />
@@ -25,6 +29,7 @@ function App() {
           <Route path="/children" element={<RandomChild />} />
           <Route path="/result" element={<SurveyResult />} />
           <Route path="/ranking" element={<Ranking />} />
+          <Route path="/restaurant" element={<Restaurant />} />
         </Routes>
       </Layout>
     </Router>

@@ -1,18 +1,14 @@
-import axios from "axios";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import axiosInstance from "../../utils/axios";
 
 export const placeSearchService = async (keyword, lat, lng) => {
   try {
-    const response = await axios.get(`${apiUrl}/v1/map/placeSearch`, {
+    const response = await axiosInstance.get("/v1/map/placeSearch", {
       params: {
         query: keyword + " 전문점",
         x: lng,
         y: lat
       },
-    });
-
-    console.log(response.data);
+    })
     return response.data; // 검색 결과 반환
   } catch (error) {
     console.error("검색 API 호출 중 오류:", error);

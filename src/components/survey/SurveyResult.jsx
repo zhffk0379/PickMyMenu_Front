@@ -6,16 +6,18 @@ import axios from "axios";
 function SurveyResult() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { parentCategory, childCategory } = location.state || {};
+    const { selection, pushData } = location.state || {};
     const [foodRecommendations, setFoodRecommendations] = useState([]);
     const [loading, setLoading] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        const fullPrompt = `${parentCategory.category}, ${childCategory.category}`;
+        console.log(selection);
+        const select = selection.join(", ");
+
         setLoading(true);
 
-        axios.get(`${apiUrl}/gemini/question`, { params: { prompt: fullPrompt } })
+        axios.get(`${apiUrl}/gemini/question`, { params: {select: select} })
             .then((response) => {
                 const foodNames = parseFoodRecommendations(response.data);
                 setFoodRecommendations(foodNames);
@@ -26,7 +28,7 @@ function SurveyResult() {
             .finally(() => {
                 setLoading(false);
             });
-    }, [parentCategory, childCategory]);
+    }, [selection]);
 
     const parseFoodRecommendations = (text) => {
         const regex = /\d+\.\s*([^\(\n]+)/g;
@@ -43,35 +45,22 @@ function SurveyResult() {
 
 
     const handleKeywordClick = (selectedKeyword) => {
-        console.log("parentCategory", parentCategory);
-        console.log("childCategory", childCategory);
-        console.log("selectedKeyword", selectedKeyword);
-        // 먼저 POST 요청을 보냄
         axios.post(`${apiUrl}/survey/collect`, {
-            parentCategory: parentCategory,
-            childCategory: childCategory,
-            selectedKeyword: selectedKeyword
+            "list": pushData,
+            "menu": selectedKeyword
         })
             .then((response) => {
                 console.log('성공적으로 저장되었습니다:', response);
                 const resultMenuId = response.data.data;
 
                 // 요청이 성공하면 MapPage로 이동
-                navigate('/map', { state: { keyword: selectedKeyword, resultMenuId: resultMenuId } });
+                navigate('/map', { state: { keyword: selectedKeyword , resultMenuId} });
             })
             .catch((error) => {
                 console.error('POST 요청 중 오류 발생:', error);
                 // 필요시 에러 처리 로직 추가
             });
     };
-
-
-    /*    const handleKeywordClick = (selectedKeyword) => {
-            console.log(selectedKeyword);
-            // 선택한 keyword를 MapPage로 전달
-            navigate('/map', { state: { keyword: selectedKeyword } });
-        };*/
-
 
     return (
         <Container>
