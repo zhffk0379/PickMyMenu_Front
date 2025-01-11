@@ -12,7 +12,7 @@ const ParentRanking = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/survey/parentCount`); // API 호출
+                const response = await axios.get(`${apiUrl}/survey/rank`); // API 호출
                 setData(response.data); // 데이터 저장
                 setLoading(false); // 로딩 상태 변경
             } catch (err) {

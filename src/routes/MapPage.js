@@ -8,7 +8,7 @@ const MapPage = () => {
     const { location, error: locationError } = useGeolocation();
     const { state } = useLocation();  // MapPage로 전달된 state를 받음
     const keyword = state?.keyword;  // 전달된 keyword 값을 받음
-
+    const resultMenuId = state?.resultMenuId; // resultMenuId 값도 받음
     const { places, loading, error: placesError } = usePlaces(keyword, location);
 
     if (locationError) return <div>Error: {locationError}</div>;
@@ -18,7 +18,7 @@ const MapPage = () => {
 
     return (
         <div>
-            <KakaoMap places={places} center={location} />
+            <KakaoMap places={places} center={location} resultMenuId={resultMenuId} />
         </div>
     );
 };

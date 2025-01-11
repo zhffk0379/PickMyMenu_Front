@@ -1,35 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from 'axios';  // axios 추가
+import axios from 'axios';
 
 const KakaoMap = ({ places, center }) => {
     const mapRef = useRef(null);
     const [selectedPlaceUrl, setSelectedPlaceUrl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [placeImages, setPlaceImages] = useState({});  // 각 장소의 이미지 URL을 저장
+    const [placeImages, setPlaceImages] = useState({});
+    const [showList, setShowList] = useState(false);
     const location = useLocation();
-    const { keyword } = location.state || {};  // state가 없으면 빈 객체로 처리
+    const { keyword, resultMenuId } = location.state || {};
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     // 이미지 크롤링
-    //     const fetchPlaceImages = async () => {
-    //         const updatedPlaceImages = {};
-    //         for (const place of places) {
-    //             try {
-    //                 const response = await axios.get(`http://localhost:9005/placeImageCrawl?query=${place.id}`);
-    //                 updatedPlaceImages[place.id] = response.data.image_url || null;
-    //             } catch (error) {
-    //                 console.error("Error fetching image:", error);
-    //                 updatedPlaceImages[place.id] = null;
-    //             }
-    //         }
-    //         setPlaceImages(updatedPlaceImages);  // 이미지 URL 저장
-    //     };
-    //
-    //     fetchPlaceImages();
-    // }, [places]);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -92,7 +75,6 @@ const KakaoMap = ({ places, center }) => {
                         if (place.place_url.startsWith("http://")) {
                             place.place_url = place.place_url.replace("http://", "https://");
                             place.place_url = place.place_url.replace(".com/", ".com/m/");
-                            console.log(place.place_url);
                         }
                         setSelectedPlaceUrl(place.place_url);
                         setIsModalOpen(true);
@@ -104,29 +86,135 @@ const KakaoMap = ({ places, center }) => {
     }, [places, center]);
 
     const handleReselect = () => {
-        navigate('/parent'); // "다시 선택하기" 버튼 클릭 시 /parent 페이지로 이동
+        navigate('/parent');
     };
 
     const handlePlaceClick = (place) => {
+        if (place.place_url.startsWith("http://")) {
+            place.place_url = place.place_url.replace("http://", "https://");
+            place.place_url = place.place_url.replace(".com/", ".com/m/");
+        }
         setSelectedPlaceUrl(place.place_url);
         setIsModalOpen(true);
     };
 
+    const handleApiCall = (place) => {
+      console.log("resultMenuId", resultMenuId);
+        const requestData = {
+            ...place,
+            resultMenuId: resultMenuId
+        };
+
+        axios.post(`${apiUrl}/restaurant/saveInfo`, requestData)
+            .then((response) => {
+                navigate('/restaurant');
+            })
+            .catch((error) => {
+                console.error('POST 요청 중 오류 발생:', error);
+            });
+    };
+
     return (
-        <div style={{display: "flex", width: "100%", height: "100vh"}}>
-            <div style={{
-                width: '35%',
-                height: '100%',
-                overflowY: 'auto',
-                padding: '20px',
-                boxSizing: 'border-box',
+        <div style={{display: "flex", width: "100%", height: "100vh", flexDirection: "column", overflow: "hidden"}}>
+            {/* 지도 */}
+            <div ref={mapRef} style={{
+                flex: 1,
+                width: '100%',
+                height: 'calc(100vh - 72px - 60px)', // 헤더와 버튼을 제외한 영역
                 position: 'relative',
-                zIndex: 10,
+                zIndex: 1,
+                overflow: 'hidden',
+            }}/>
+
+            {/* '리스트 보기' 버튼 */}
+            <button
+                onClick={() => setShowList(prev => !prev)}
+                style={{
+                    position: 'absolute',
+                    top: '80px',
+                    left: '20px',
+                    zIndex: 10,
+                    padding: "10px 20px",
+                    backgroundColor: "gray",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                }}
+            >
+                {showList ? '=' : '='}
+            </button>
+
+            {/* 지도 아래 버튼 */}
+            <div style={{
+                position: "absolute",
+                bottom: "20px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                gap: "20px",
+                zIndex: 20,
+                justifyContent: "center",  // 가운데 정렬
+                width: "100%",  // 부모 컨테이너 너비에 맞게 설정
+                padding: "0 20px"  // 여백을 주어 화면 크기에 맞게 조정
             }}>
-                <h3 style={{textAlign: 'center', marginBottom: '15px', fontSize: '1.2em'}}>'{keyword}' 검색 결과</h3>
-                <ul style={{listStyle: 'none', padding: 0}}>
-                    {places.map((place, index) => {
-                        return (
+                <button
+                    onClick={handleReselect}
+                    style={{
+                        width: "auto",  // 버튼의 길이를 내용에 맞게 조정
+                        padding: "10px 20px",
+                        backgroundColor: "#007bff",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        fontSize: "16px",
+                        whiteSpace: "nowrap",  // 텍스트가 한 줄로 유지되도록
+                        flex: "1",  // 버튼이 일정한 비율로 늘어나도록
+                    }}
+                >
+                    다시 선택하기
+                </button>
+                <button
+                    //onClick={() => handleApiCall(places[0], resultMenuId)}
+                    style={{
+                        width: "auto",  // 버튼의 길이를 내용에 맞게 조정
+                        padding: "10px 20px",
+                        backgroundColor: "#28a745",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        fontSize: "16px",
+                        whiteSpace: "nowrap",  // 텍스트가 한 줄로 유지되도록
+                        flex: "1",  // 버튼이 일정한 비율로 늘어나도록
+                    }}
+                >
+                    {keyword} 맛집 정보
+                </button>
+            </div>
+
+            {/* 지도 왼쪽 상단에 장소 목록 */}
+            {showList && (
+                <div style={{
+                    position: "absolute",
+                    top: '80px',
+                    left: '70px',
+                    width: '300px',
+                    height: 'calc(100vh - 72px - 80px)', // 헤더 및 버튼 제외
+                    overflowY: 'auto',
+                    backgroundColor: "white",
+                    boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
+                    zIndex: 15,
+                    padding: "10px",
+                    borderRadius: "10px",
+                }}>
+                    <h3 style={{textAlign: 'center', marginBottom: '15px', fontSize: '1.2em'}}>
+                        '{keyword}' 검색 결과
+                    </h3>
+                    <ul style={{listStyle: 'none', padding: 0}}>
+                        {places.map((place, index) => (
                             <li
                                 key={index}
                                 onClick={() => handlePlaceClick(place)}
@@ -170,39 +258,19 @@ const KakaoMap = ({ places, center }) => {
                                     <div style={{fontSize: '0.8em', color: '#888'}}>{place.phone}</div>
                                 </div>
                             </li>
-                        );
-                    })}
-                </ul>
-            </div>
+                        ))}
+                    </ul>
+                </div>
+            )}
 
-            <div ref={mapRef} style={{width: '65%', height: '100%'}}/>
-
-            <button
-                onClick={handleReselect}
-                style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    padding: "10px 20px",
-                    backgroundColor: "#007bff",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    zIndex: 10,
-                    fontSize: "16px",
-                }}
-            >
-                다시 선택하기
-            </button>
-
+            {/* 모달 */}
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
-                        initial={{opacity: 0, y: 50}}
-                        animate={{opacity: 1, y: 0}}
-                        exit={{opacity: 0, y: 50}}
-                        transition={{type: "spring", stiffness: 100}}
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ type: "spring", stiffness: 100 }}
                         style={{
                             position: "fixed",
                             top: 0,
@@ -225,35 +293,70 @@ const KakaoMap = ({ places, center }) => {
                                 borderRadius: "15px",
                                 overflow: "hidden",
                                 position: "relative",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",  // 위와 아래 공간 확보
                             }}
                         >
-                            <button
-                                onClick={() => setIsModalOpen(false)}
+                            {/* Iframe or Placeholder */}
+                            <div style={{ flex: 1, overflow: "hidden" }}>
+                                {selectedPlaceUrl ? (
+                                    <iframe
+                                        src={selectedPlaceUrl}
+                                        style={{ width: "100%", height: "100%", border: "none" }}
+                                        title="Place Info"
+                                        frameBorder="0"
+                                    />
+                                ) : (
+                                    <p style={{ textAlign: "center", margin: "20px" }}>
+                                        장소 정보가 없습니다.
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* 하단 버튼 영역 */}
+                            <div
                                 style={{
-                                    position: "absolute",
-                                    top: 10,
-                                    right: 10,
-                                    border: "none",
-                                    background: "transparent",
-                                    fontSize: "40px",
-                                    color: "black",
-                                    cursor: "pointer",
-                                    textShadow: "1px 1px 3px white",
+                                    display: "flex",
+                                    justifyContent: "space-around",
+                                    padding: "10px 20px",
+                                    borderTop: "1px solid #ccc",
+                                    backgroundColor: "#f1f1f1",
                                 }}
                             >
-                                &times;
-                            </button>
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    style={{
+                                        padding: "10px 20px",
+                                        backgroundColor: "red",
+                                        color: "white",
+                                        border: "none",
+                                        borderRadius: "5px",
+                                        cursor: "pointer",
+                                        fontSize: "16px",
+                                    }}
+                                >
+                                    닫기
+                                </button>
 
-                            {selectedPlaceUrl ? (
-                                <iframe
-                                    src={selectedPlaceUrl}
-                                    style={{width: "100%", height: "100%", border: "none"}}
-                                    title="Place Info"
-                                    frameBorder="0"
-                                />
-                            ) : (
-                                <p>장소 정보가 없습니다.</p>
-                            )}
+                                {/* "식당 이용하기" 버튼은 선택된 장소에 대해서만 보여지도록 수정 */}
+                                {selectedPlaceUrl && (
+                                    <button
+                                        onClick={() => handleApiCall(places.find(place => place.place_url === selectedPlaceUrl))}
+                                        style={{
+                                            padding: "10px 20px",
+                                            backgroundColor: "#28a745",
+                                            color: "white",
+                                            border: "none",
+                                            borderRadius: "5px",
+                                            cursor: "pointer",
+                                            fontSize: "16px",
+                                        }}
+                                    >
+                                        식당 이용하기
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </motion.div>
                 )}
