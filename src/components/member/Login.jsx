@@ -22,10 +22,10 @@ function Login() {
             });
 
             // 로그인 성공 시 사용자 이름과 JWT 토큰을 받음
-            const { name } = response.data;
+            const { token, name } = response.data;
 
             // 쿠키저장
-            // document.cookie = `token=${token}; Path=/;`;
+            document.cookie = `token=${token}; Path=/;`;
             // Secure; SameSite=Strict; http://localhost에서는 Secure 쿠키가 적용되지 않음
 
             alert(`${name}님, PickMyMenu에 오신 것을 환영합니다!`);
