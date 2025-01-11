@@ -17,19 +17,21 @@ function Login() {
             const response = await axios.post('http://localhost:8080/member/login', {
                 email,
                 password
+            }, {
+                   withCredentials: true  // 쿠키 전송을 허용
             });
 
             // 로그인 성공 시 사용자 이름과 JWT 토큰을 받음
             const { token, name } = response.data;
 
-            // JWT 토큰을 localStorage에 저장
-            localStorage.setItem('token', token);  // JWT 토큰 저장
+            // 쿠키저장
+            document.cookie = `token=${token}; Path=/;`;
+            // Secure; SameSite=Strict; http://localhost에서는 Secure 쿠키가 적용되지 않음
 
-            // 로그인 성공 후 환영 메시지
             alert(`${name}님, PickMyMenu에 오신 것을 환영합니다!`);
 
             // 로그인 성공 후 루트 페이지로 이동
-            navigate('/');  // 루트 페이지로 이동
+            navigate('/');
         } catch (error) {
             // 로그인 실패 시 에러 메시지 표시
             console.error('Login failed', error);
