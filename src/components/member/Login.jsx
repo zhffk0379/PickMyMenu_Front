@@ -26,22 +26,21 @@ function Login() {
 
             // 쿠키저장
             document.cookie = `token=${token}; Path=/;`;
-            // Secure; SameSite=Strict; http://localhost에서는 Secure 쿠키가 적용되지 않음
 
             alert(`${name}님, PickMyMenu에 오신 것을 환영합니다!`);
 
             // 로그인 성공 후 루트 페이지로 이동
             navigate('/');
-        } catch (error) {
-            // 로그인 실패 시 에러 메시지 표시
-            console.error('Login failed', error);
-            if (error.response && error.response.status === 400) {
-                setErrorMessage('아이디 또는 비밀번호가 틀립니다.');
-            } else {
-                setErrorMessage('로그인 요청 중 오류가 발생했습니다.');
-            }
-        }
-    };
+                } catch (error) {
+                    console.error('Login failed', error);
+                    if (error.response && error.response.data.message) {
+                        // 백엔드에서 전달한 에러 메시지 사용
+                        setErrorMessage(error.response.data.message);
+                    } else {
+                        setErrorMessage('로그인 요청 중 오류가 발생했습니다.');
+                    }
+                }
+            };
 
     return (
         <Container className="d-flex justify-content-center align-items-center vh-100">
