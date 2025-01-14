@@ -9,16 +9,14 @@ const MyPage = () => {
 
   useEffect(() => {
     const fetchMemberData = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/member/mypage`, {
-          withCredentials: true,
-        });
-        setMemberData(response.data); // 서버로부터 받은 데이터 설정
-      } catch (error) {
-        console.error('Failed to fetch member data:', error);
-
-        // 인증 실패 시 로그인 페이지로 리다이렉트
-        if (error.response && error.response.status === 401) {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/member/mypage`, {
+        withCredentials: true,
+      });
+      console.log("response", response);
+      if (response.data.success) {
+        setMemberData(response.data.data); // 서버로부터 받은 데이터 설정
+      }else{
+        if (!response.data?.success) {
           navigate('/login'); // '/login' 페이지로 이동
         }
       }
