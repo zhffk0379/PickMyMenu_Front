@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "caniuse-lite": "^1.0.30001692",
     "cra-template": "1.2.0",
     "dotenv": "^16.4.7",
     "framer-motion": "^11.16.0",
@@ -16,11 +17,11 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HOST=0.0.0.0 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
+  },  "_comment_dependencies": "아무나 접속 가능하게 HOST=0.0.0.0 설정",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -37,8 +38,7 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ],
-    "proxy": "http://:8080"
+    ]
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
