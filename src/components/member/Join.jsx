@@ -40,25 +40,22 @@ function Signup() {
             gender,
         };
 
-        try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/member/join`,
-              memberInfo, {
-                  headers: {
-                      'Content-Type': 'application/json', // 명시적으로 JSON Content-Type 설정
-                  },
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/member/join`,
+          memberInfo, {
+              headers: {
+                  'Content-Type': 'application/json', // 명시적으로 JSON Content-Type 설정
+              },
 
-                withCredentials: true,
-            });
-
+            withCredentials: true,
+        });
+        if (response.data.success) {
             alert('회원가입을 축하드립니다!');
             navigate('/login');
-        } catch (error) {
-            if (error.response && error.response.data) {
-                setErrorMessage(error.response.data);
-            } else {
-                setErrorMessage('회원가입 요청 중 알 수 없는 오류가 발생했습니다.');
-            }
-            console.error(error);
+        }
+        if (response.data?.message) {
+            setErrorMessage(response.data?.message);
+        } else {
+            setErrorMessage('회원가입 요청 중 알 수 없는 오류가 발생했습니다.');
         }
     };
 

@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         const checkAuth = async () => {
             try {
                 const response = await axios.post(
-                    'http://localhost:8080/member/jwtChk',
+                    `${process.env.REACT_APP_API_URL}/member/jwtChk`,
                     {},
                     { withCredentials: true }
                 );

@@ -14,14 +14,14 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/member/login`, {
-        email,
-        password,
-      }, {
-        withCredentials: true,
-      });
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/member/login`, {
+      email,
+      password,
+    }, {
+      withCredentials: true,
+    });
 
+    if (response.data.success) {
       const { token, name } = response.data;
 
       // document.cookie를 사용하여 쿠키에 토큰을 저장
@@ -30,14 +30,16 @@ function Login() {
       alert(`${name}님, PickMyMenu에 오신 것을 환영합니다!`);
       login(); // 로그인 상태 업데이트
       navigate('/'); // 로그인 후 루트 페이지로 이동
-    } catch (error) {
-      console.error('Login failed', error);
-      if (error.response && error.response.data.message) {
-        setErrorMessage(error.response.data.message);
+    }else{
+      if (response.data?.message) {
+        setErrorMessage(response.data.message);
       } else {
         setErrorMessage('로그인 요청 중 오류가 발생했습니다.');
       }
     }
+
+
+
   };
 
   return (
