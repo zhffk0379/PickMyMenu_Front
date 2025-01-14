@@ -18,11 +18,13 @@ function Login() {
       email,
       password,
     }, {
-      withCredentials: true,
+      withCredentials: true
     });
 
+    console.log("response", await response);
+
     if (response.data.success) {
-      const { token, name } = response.data;
+      const { token, name } = response.data.data;
 
       // document.cookie를 사용하여 쿠키에 토큰을 저장
       document.cookie = `token=${token}; max-age=${7 * 24 * 60 * 60}; path=/`;  // 7일간 유효
