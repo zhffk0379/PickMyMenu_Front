@@ -10,7 +10,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       // 서버에 로그아웃 요청 보내기
-      await axios.post('http://localhost:8080/member/logout', {}, { withCredentials: true });
+      await axios.post(`${process.env.REACT_APP_API_URL}/member/logout`, {}, { withCredentials: true });
 
       // 클라이언트 상태 처리
       logout(); // 로그아웃 처리
