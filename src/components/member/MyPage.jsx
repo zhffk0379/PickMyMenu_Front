@@ -10,8 +10,8 @@ const MyPage = () => {
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/member/mypage', {
-          withCredentials: true, // 쿠키를 함께 보냄
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/member/mypage`, {
+          withCredentials: true,
         });
         setMemberData(response.data); // 서버로부터 받은 데이터 설정
       } catch (error) {
