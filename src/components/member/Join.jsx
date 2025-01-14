@@ -83,7 +83,7 @@ function Signup() {
                 params: { email }
             });
 
-            if (response.data.status === 200) {
+            if (response.data.success === true) {
                 setEmailError('사용 가능한 이메일입니다.');
                 setIsEmailValid(true);
             } else {
