@@ -86,7 +86,7 @@ const KakaoMap = ({ places, center }) => {
     }, [places, center]);
 
     const handleReselect = () => {
-        navigate('/parent');
+        navigate('/choice');
     };
 
     const handlePlaceClick = (place) => {

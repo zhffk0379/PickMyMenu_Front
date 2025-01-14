@@ -41,8 +41,11 @@ function Signup() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/member/join', null, {
-                params: { memberInfo: JSON.stringify(memberInfo) },
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/member/join`,
+              memberInfo, {
+                  headers: {
+                      'Content-Type': 'application/json', // 명시적으로 JSON Content-Type 설정
+                  },
                 withCredentials: true,
             });
 
@@ -66,7 +69,7 @@ function Signup() {
             }
 
         try {
-            const response = await axios.get('http://localhost:8080/member/check-email', {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/member/check-email`, {
                 params: { email }
             });
 
