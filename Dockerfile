@@ -6,6 +6,8 @@ COPY package.json ./
 
 RUN npm install
 
+ENV HOST=0.0.0.0
+
 # GitHub Actions에서 환경 변수로 .env 파일을 대체하여 직접 환경 변수 설정
 ARG REACT_APP_NAVER_MAP_CLIENT_ID
 ARG REACT_APP_KAKAO_MAP_KEY
