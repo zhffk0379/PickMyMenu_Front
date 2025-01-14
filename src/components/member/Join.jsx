@@ -46,6 +46,7 @@ function Signup() {
                   headers: {
                       'Content-Type': 'application/json', // 명시적으로 JSON Content-Type 설정
                   },
+
                 withCredentials: true,
             });
 
@@ -62,11 +63,20 @@ function Signup() {
     };
 
     const handleEmailCheck = async () => {
+        // 이메일이 비어 있으면 오류 처리
         if (!email) {
             setEmailError('이메일을 입력하세요.');
             setIsEmailValid(false);
             return;
-            }
+        }
+
+        // 이메일 형식 검증 (정규식 사용)
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('올바른 이메일 형식이 아닙니다.');
+            setIsEmailValid(false);
+            return;
+        }
 
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/member/check-email`, {
@@ -155,9 +165,22 @@ function Signup() {
                                         type="text"
                                         placeholder="숫자만 입력"
                                         value={phoneNumber}
-                                        onChange={(e) => setPhoneNumber(e.target.value)}
+                                        onChange={(e) => {
+                                            const input = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 남김
+                                            let formatted = input;
+
+                                            // 번호를 형식에 맞게 변환
+                                            if (input.length > 3 && input.length <= 7) {
+                                                formatted = `${input.slice(0, 3)}-${input.slice(3)}`;
+                                            } else if (input.length > 7) {
+                                                formatted = `${input.slice(0, 3)}-${input.slice(3, 7)}-${input.slice(7, 11)}`;
+                                            }
+
+                                            setPhoneNumber(formatted); // 포맷팅된 값으로 상태 업데이트
+                                        }}
                                     />
                                 </Form.Group>
+
 
                                 <Form.Group className="mb-3" controlId="formBasicGender">
                                     <Form.Label>성별</Form.Label>
