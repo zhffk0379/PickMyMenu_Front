@@ -28,8 +28,8 @@ const Header = () => {
           <ul>
             <li><Link to="/">홈</Link></li>
             {/*<li><Link to="/map">지도</Link></li>*/}
-            <li><Link to="/group1">설문 1</Link></li>
-            <li><Link to="/parent">설문 2</Link></li>
+            <li><Link to="/choice">설문 1</Link></li>
+            <li><Link to="/ai">설문 2</Link></li>
 
             {isAuthenticated ? (
               <>

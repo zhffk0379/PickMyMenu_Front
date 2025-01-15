@@ -28,11 +28,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/choice" element={<ChoicePage />} />
-            <Route path="/group1" element={<Group1Page />} />
-            <Route path="/group2" element={<Group2Page />} />
-            <Route path="/group3" element={<Group3Page />} />
-            <Route path="/parent" element={<RandomParent />} />
-            <Route path="/children" element={<RandomChild />} />
+
+
             <Route path="/result" element={<SurveyResult />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/restaurant" element={<Restaurant />} />
