@@ -10,7 +10,7 @@ const HomePage = () => {
         음식 추천
       </Link>
       <Link to={"/parent"} className={"recommendation-link"}>
-        음식 추천2
+        AI 추천
       </Link>
       <Link to={"/ranking"} className={"recommendation-link"}>
         순위
