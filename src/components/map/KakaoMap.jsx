@@ -15,6 +15,7 @@ const KakaoMap = ({ places, center }) => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
+        console.log(resultMenuId)
         const script = document.createElement('script');
         script.async = true;
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
