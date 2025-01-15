@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Join.css';
 
-function Signup() {
+function Join() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -212,4 +212,4 @@ function Signup() {
     );
 }
 
-export default Signup;
+export default Join;
