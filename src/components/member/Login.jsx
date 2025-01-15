@@ -21,8 +21,6 @@ function Login() {
       withCredentials: true
     });
 
-    console.log("response", await response);
-
     if (response.data.success) {
       const { token, name } = response.data.data;
 
@@ -82,7 +80,7 @@ function Login() {
               <div className="d-flex justify-content-between mt-3">
                 <a href="/forgot-username">이메일 찾기</a>
                 <a href="/forgot-password">비밀번호 찾기</a>
-                <a href="/signup">회원가입</a>
+                <a href="/join">회원가입</a>
               </div>
             </Card.Body>
           </Card>

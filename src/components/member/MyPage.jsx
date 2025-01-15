@@ -31,7 +31,7 @@ const MyPage = () => {
 
   // 회원정보 수정 페이지로 이동
   const handleEditClick = () => {
-    navigate('/edit'); // 예시로 '/edit' 페이지로 이동
+    navigate('/passwordverify'); // 예시로 '/edit' 페이지로 이동
   };
 
   // 회원탈퇴 페이지로 이동
