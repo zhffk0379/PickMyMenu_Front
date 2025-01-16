@@ -1,0 +1,60 @@
+/* 기본적인 카드 스타일 (이미지 없이) */
+.custom-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.card-link {
+    text-decoration: none;
+}
+
+.text-muted {
+    color: #aaa;
+    text-align: left;
+    margin-top: auto;
+}
+
+/* 카드 높이를 고정 */
+.custom-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 300px; /* 카드의 고정 높이 */
+    overflow: hidden;
+}
+
+/* 카드 본문에 내용이 많을 경우 스크롤을 추가 */
+.custom-card .card-body .card-text {
+    max-height: 140px; /* 최대 높이 설정 */
+}
+
+/* 반응형 레이아웃에서 카드 간격 및 여백 조정 */
+@media (max-width: 768px) {
+    .custom-card {
+        margin-bottom: 20px;
+    }
+}
