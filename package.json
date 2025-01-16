@@ -41,6 +41,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://hhjnn92.synology.me:3022",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
