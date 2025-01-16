@@ -22,7 +22,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "_comment_dependencies": "아무나 접속 가능하게 HOST=0.0.0.0 설정",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -41,7 +40,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://hhjnn92.synology.me:3022",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
