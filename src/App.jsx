@@ -14,6 +14,7 @@ import SurveyResult from "./components/survey/SurveyResult";
 import Ranking from "./routes/Ranking";
 import ChoicePage from "./routes/ChoicePage";
 import Restaurant from "./components/restaurant/Restaurant";
+import RestaurantInfo from "./components/restaurant/RestaurantInfo";
 
 function App() {
   return (
@@ -30,8 +31,7 @@ function App() {
             <Route path="/edit" element={<Edit />} />
             <Route path="/passwordverify" element={<PasswordVerify />} />
             <Route path="/choice" element={<ChoicePage />} />
-
-
+            <Route path="/restaurantInfo" element={<RestaurantInfo />} />
             <Route path="/result" element={<SurveyResult />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/restaurant" element={<Restaurant />} />
