@@ -1,28 +1,31 @@
+// Edit.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Edit.css'; // Edit 전용 CSS 파일 import
+import { useAuth } from '../../contexts/AuthContext';
+import './Edit.css';
 
 const Edit = () => {
   const [memberData, setMemberData] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [newPassword, setNewPassword] = useState(''); // 새 비밀번호
-  const [confirmPassword, setConfirmPassword] = useState(''); // 새 비밀번호 확인
-  const [phoneCheckMessage, setPhoneCheckMessage] = useState(''); // 전화번호 중복 확인 메시지
-  const [isPhoneAvailable, setIsPhoneAvailable] = useState(true); // 전화번호 사용 가능 여부
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneCheckMessage, setPhoneCheckMessage] = useState('');
+  const [isPhoneAvailable, setIsPhoneAvailable] = useState(true);
   const navigate = useNavigate();
+  const { handleLogout } = useAuth(); // handleLogout 함수 가져오기
 
   useEffect(() => {
     const fetchMemberData = async () => {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/member/mypage`, {
-        withCredentials: true, // 쿠키에서 자동으로 인증 정보를 가져옴
+        withCredentials: true,
       });
 
       if (response.data.success) {
         setMemberData(response.data.data);
-        setPhoneNumber(response.data.data.phoneNumber); // 전화번호 초기값 설정
+        setPhoneNumber(response.data.data.phoneNumber);
       } else {
-        navigate('/login'); // 로그인 페이지로 리디렉션
+        navigate('/login');
       }
     };
 
@@ -35,52 +38,51 @@ const Edit = () => {
       return;
     }
 
-    if (!isPhoneAvailable) {
-      alert('전화번호가 이미 사용 중입니다.');
+    if (!isPhoneAvailable && phoneNumber !== memberData.phoneNumber) {
+      alert('전화번호 중복 확인을 해주세요.');
       return;
     }
 
     const updatedData = {
       phoneNumber,
-      password: newPassword, // 새 비밀번호로 변경
+      password: newPassword,
     };
 
     try {
       const response = await axios.put(`${process.env.REACT_APP_API_URL}/member/update`, updatedData, {
-        withCredentials: true, // 쿠키에서 인증 정보를 사용
+        withCredentials: true,
       });
-
-      console.log(response);  // 응답 내용 확인
 
       if (response.data.success) {
         alert('수정이 완료되었습니다. 재로그인 후 이용해주세요.');
-        navigate('/login');
+
+        await handleLogout(); // handleLogout 호출
+
+        navigate('/');  // 메인 페이지로 이동
       } else {
         alert(response.data.message || '수정 중 오류가 발생했습니다.');
       }
     } catch (error) {
-      console.error('서버 오류:', error);  // 에러 로그 추가
+      console.error('서버 오류:', error);
       alert('서버 오류가 발생했습니다.');
     }
   };
-
 
   const handleCancel = () => {
     navigate('/mypage');
   };
 
   const handlePhoneNumberChange = (e) => {
-    const input = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 남김
+    const input = e.target.value.replace(/[^0-9]/g, '');
     let formatted = input;
 
-    // 번호를 형식에 맞게 변환
     if (input.length > 3 && input.length <= 7) {
       formatted = `${input.slice(0, 3)}-${input.slice(3)}`;
     } else if (input.length > 7) {
       formatted = `${input.slice(0, 3)}-${input.slice(3, 7)}-${input.slice(7, 11)}`;
     }
 
-    setPhoneNumber(formatted); // 포맷팅된 값으로 상태 업데이트
+    setPhoneNumber(formatted);
   };
 
   const handlePhoneNumberCheck = async () => {
