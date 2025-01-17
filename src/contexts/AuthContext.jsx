@@ -1,3 +1,4 @@
+// AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
@@ -21,6 +22,16 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
     };
 
+    const handleLogout = async () => {
+      try {
+        await axios.post(`${process.env.REACT_APP_API_URL}/member/logout`, {}, { withCredentials: true });
+        logout(); // 로그아웃 처리
+        document.cookie = 'token=; Max-Age=-99999999;'; // 쿠키 삭제
+      } catch (error) {
+        console.error('로그아웃 오류:', error);
+      }
+    };
+
     // 브라우저 새로고침 시 토큰 유효성 확인
     useEffect(() => {
         const checkAuth = async () => {
@@ -31,13 +42,12 @@ export const AuthProvider = ({ children }) => {
                     { withCredentials: true }
                 );
 
-                // 인증 성공 시 로그인 상태로 설정
                 if (response.status === 200) {
                     setIsAuthenticated(true);
                 }
             } catch (error) {
                 console.error('토큰 인증 실패:', error.response?.data || error.message);
-                setIsAuthenticated(false); // 인증 실패 시 비로그인 상태로 설정
+                setIsAuthenticated(false);
             }
         };
 
@@ -45,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, handleLogout }}>
             {children}
         </AuthContext.Provider>
     );

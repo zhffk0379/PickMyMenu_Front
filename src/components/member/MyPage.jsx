@@ -1,55 +1,74 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // react-router-dom의 useNavigate 사용
-import './MyPage.css';
+import { useNavigate } from 'react-router-dom';
+import './MyPage.css'; // MyPage 전용 CSS 파일 import
 
 const MyPage = () => {
   const [memberData, setMemberData] = useState(null);
-  const navigate = useNavigate(); // navigate 함수 초기화
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMemberData = async () => {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/member/mypage`, {
         withCredentials: true,
       });
-      console.log("response", response);
       if (response.data.success) {
-        setMemberData(response.data.data); // 서버로부터 받은 데이터 설정
-      }else{
-        if (!response.data?.success) {
-          navigate('/login'); // '/login' 페이지로 이동
-        }
+        setMemberData(response.data.data);
+      } else {
+        navigate('/login');
       }
     };
 
-    fetchMemberData(); // 데이터 fetch 함수 실행
-  }, [navigate]); // navigate가 변경되면 useEffect 재실행
+    fetchMemberData();
+  }, [navigate]);
 
   if (!memberData) {
-    return <p>Loading...</p>; // 데이터 로딩 중 표시
+    return <p>Loading...</p>;
   }
 
-  // 회원정보 수정 페이지로 이동
   const handleEditClick = () => {
-    navigate('/passwordverify'); // 예시로 '/edit' 페이지로 이동
+    navigate('/passwordverify');
   };
 
-  // 회원탈퇴 페이지로 이동
   const handleDeleteClick = () => {
-    navigate('/delete'); // 예시로 '/delete' 페이지로 이동
+    navigate('/delete');
   };
 
   return (
     <div className="mypage-container">
       <h2>마이페이지</h2>
-      <div className="member-info">
-        <p><strong>이름:</strong> {memberData.name}</p>
-        <p><strong>이메일:</strong> {memberData.email}</p>
-        <p><strong>전화번호:</strong> {memberData.phoneNumber}</p>
-        <p><strong>생년월일:</strong> {memberData.birthdate}</p>
-        <p><strong>성별:</strong> {memberData.gender}</p>
-        <p><strong>가입 날짜:</strong> {memberData.createdDate}</p>
+      <div className="edit-form">
+        <div className="form-group">
+          <label>이름</label>
+          <input type="text" value={memberData.name} readOnly />
+        </div>
+
+        <div className="form-group">
+          <label>이메일</label>
+          <input type="email" value={memberData.email} readOnly />
+        </div>
+
+        <div className="form-group">
+          <label>전화번호</label>
+          <input type="text" value={memberData.phoneNumber} readOnly />
+        </div>
+
+        <div className="form-group">
+          <label>생년월일</label>
+          <input type="text" value={memberData.birthdate} readOnly />
+        </div>
+
+        <div className="form-group">
+          <label>성별</label>
+          <input type="text" value={memberData.gender} readOnly />
+        </div>
+
+        <div className="form-group">
+          <label>가입 날짜</label>
+          <input type="text" value={memberData.createdDate} readOnly />
+        </div>
       </div>
+
       <div className="mypage-buttons">
         <button className="edit-button" onClick={handleEditClick}>회원정보 수정</button>
         <button className="delete-button" onClick={handleDeleteClick}>회원탈퇴</button>

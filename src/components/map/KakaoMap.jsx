@@ -7,18 +7,29 @@ const KakaoMap = ({ places, center }) => {
     const mapRef = useRef(null);
     const [selectedPlaceUrl, setSelectedPlaceUrl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [placeImages, setPlaceImages] = useState({});
     const [showList, setShowList] = useState(false);
     const location = useLocation();
     const { keyword, resultMenuId } = location.state || {};
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
+    const [promptResponse, setPromptResponse] = useState(null); // 응답 데이터를 저장할 상태 추가
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
-    document.head.appendChild(script);
+    useEffect(() => {
+        const lat = center.latitude;
+        const lon = center.longitude;
+        axios.get("http://hhjnn92.synology.me:3022/search", {params: {text: keyword, lat, lon}})
+            .then((response) => {
+                setPromptResponse(response.data); // 받은 데이터를 상태에 저장
+            })
+            .catch((error) => {
+                console.error('API 호출 오류', error);
+            });
+
+        console.log(resultMenuId);
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
+        document.head.appendChild(script);
 
         script.onload = () => {
             window.kakao.maps.load(() => {
@@ -46,19 +57,10 @@ const KakaoMap = ({ places, center }) => {
                     });
 
                     const content = `
-                        <div style="
-                            position: relative;
-                            bottom: 35px;
-                            left: -50%;
-                            transform: translateX(-50%);
-                            background: white;
-                            border: 1px solid #ccc;
-                            border-radius: 10px;
-                            padding: 5px 10px;
-                            box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
-                            font-size: 12px;
-                            white-space: nowrap;
-                            text-align: center;">
+                        <div style="position: relative; bottom: 35px; left: -50%; transform: translateX(-50%);
+                                    background: white; border: 1px solid #ccc; border-radius: 10px;
+                                    padding: 5px 10px; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+                                    font-size: 12px; white-space: nowrap; text-align: center;">
                             ${place.place_name}
                         </div>
                     `;
@@ -83,12 +85,14 @@ const KakaoMap = ({ places, center }) => {
                 });
             });
         };
-    }, [places, center]);
+    }, [places, center, keyword]);
 
+    // 다시선택하기 클릭 함수
     const handleReselect = () => {
         navigate('/choice');
     };
 
+    // 식당 리스트 내 식당 클릭 함수
     const handlePlaceClick = (place) => {
         if (place.place_url.startsWith("http://")) {
             place.place_url = place.place_url.replace("http://", "https://");
@@ -98,8 +102,9 @@ const KakaoMap = ({ places, center }) => {
         setIsModalOpen(true);
     };
 
+    // 식당 이용하기 클릭 함수
     const handleApiCall = (place) => {
-      console.log("resultMenuId", resultMenuId);
+        console.log("resultMenuId", resultMenuId);
         const requestData = {
             ...place,
             resultMenuId: resultMenuId
@@ -113,6 +118,19 @@ const KakaoMap = ({ places, center }) => {
                 console.error('POST 요청 중 오류 발생:', error);
             });
     };
+
+    // 맛집 정보 클릭 함수 - 다른 페이지로 데이터 넘기기
+    function restaurantInfo() {
+        // 다른 페이지로 상태 전달
+        if (!promptResponse) {
+            // 응답이 아직 도착하지 않은 경우
+            alert('맛집 정보를 검색중입니다. 잠시만 기다려주세요.');
+            return;
+        }
+
+        navigate('/restaurantInfo', { state: { data: promptResponse, keyword: keyword } });
+    }
+
 
     return (
         <div style={{display: "flex", width: "100%", height: "100vh", flexDirection: "column", overflow: "hidden"}}>
@@ -177,7 +195,7 @@ const KakaoMap = ({ places, center }) => {
                     다시 선택하기
                 </button>
                 <button
-                    //onClick={() => handleApiCall(places[0], resultMenuId)}
+                    onClick={() => restaurantInfo()}
                     style={{
                         width: "auto",  // 버튼의 길이를 내용에 맞게 조정
                         padding: "10px 20px",

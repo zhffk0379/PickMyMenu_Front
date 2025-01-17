@@ -21,7 +21,7 @@ function PasswordVerify() {
 
     if (response.data.success) {
       alert('비밀번호 확인이 완료되었습니다.');
-      navigate('/edit-profile'); // 회원정보 수정 페이지로 이동
+      navigate('/edit'); // 회원정보 수정 페이지로 이동
     } else {
       setErrorMessage(response.data?.message || '비밀번호가 일치하지 않습니다.');
     }

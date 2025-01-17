@@ -157,7 +157,7 @@ function Join() {
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
-                                    <Form.Label>핸드폰 번호</Form.Label>
+                                    <Form.Label>전화번호</Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder="숫자만 입력"
