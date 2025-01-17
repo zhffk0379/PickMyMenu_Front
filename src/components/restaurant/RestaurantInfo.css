@@ -1,60 +1,70 @@
-/* 기본적인 카드 스타일 (이미지 없이) */
-.custom-card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.custom-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.card-text {
-    font-size: 0.9rem;
-    color: #555;
+/* 공통 컨테이너 */
+.post-container {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
     margin-bottom: 15px;
 }
 
-.card-link {
-    text-decoration: none;
-}
-
-.text-muted {
-    color: #aaa;
-    text-align: left;
-    margin-top: auto;
-}
-
-/* 카드 높이를 고정 */
-.custom-card .card-body {
+/* 작성자 및 시간 */
+.post-header {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 300px; /* 카드의 고정 높이 */
-    overflow: hidden;
+    align-items: center;
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 10px;
 }
 
-/* 카드 본문에 내용이 많을 경우 스크롤을 추가 */
-.custom-card .card-body .card-text {
-    max-height: 140px; /* 최대 높이 설정 */
+.username {
+    font-weight: bold;
+    color: #495057;
 }
 
-/* 반응형 레이아웃에서 카드 간격 및 여백 조정 */
+.timestamp {
+    font-size: 12px;
+    color: #adb5bd;
+}
+
+/* 게시글 내용 */
+.post-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 10px;
+    text-align: start; /* 왼쪽 정렬 */
+}
+
+.post-description {
+    font-size: 16px;
+    color: #495057;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* 이미지 갤러리 */
+.image-gallery {
+    display: flex;
+    flex-wrap: nowrap; /* 한 줄에 가로로 배치 */
+    gap: 10px; /* 이미지 간격 줄임 */
+    overflow-x: auto; /* 모바일에서 스크롤 허용 */
+}
+
+.gallery-image {
+    flex: 0 0 80px; /* 고정된 크기 */
+    width: 130px; /* 정사각형 크기 */
+    height: 130px; /* 정사각형 유지 */
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 반응형 처리 */
 @media (max-width: 768px) {
-    .custom-card {
-        margin-bottom: 20px;
+    .gallery-image {
+        flex: 0 0 70px; /* 모바일에서 더 작은 정사각형 */
+        width: 80px;
+        height: 80px;
+    }
+    .post-container {
+        padding-bottom: 10px;
     }
 }
