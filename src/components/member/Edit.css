@@ -41,6 +41,31 @@ h2 {
   background-color: #f1f1f1;
 }
 
+/* 전화번호 입력과 버튼을 감싸는 컨테이너 */
+.phone-input-container {
+  display: flex;
+  align-items: center;  /* 입력칸과 버튼을 동일선상으로 정렬 */
+  gap: 0.5rem; /* 입력창과 버튼 사이 간격 */
+}
+
+.phone-check-button {
+  background-color: #6c757d; /* 기본 색상 */
+  height: 50px;
+  margin-top: -8px;
+  color: white;
+  border: none;
+  padding: 0.7rem 1rem; /* 크기 조정 */
+  font-size: 1rem; /* 글씨 크기 조정 */
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 */
+}
+
+.phone-check-button:hover {
+  background-color: #5a6268; /* hover 색상 */
+}
+
 /* 버튼 컨테이너 스타일 */
 .buttons {
   display: flex;
