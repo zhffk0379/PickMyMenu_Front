@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext'; // AuthContext 임포트
 import { HomePage, MapPage } from './routes';
-import { Join, Login, MyPage, PasswordVerify, Edit } from './components/member';
+import { Join, Login, MyPage, PasswordVerify, Edit, Delete } from './components/member';
 import Group1Page from "./components/survey/Group1Page";
 import Group2Page from "./components/survey/Group2Page";
 import Group3Page from "./components/survey/Group3Page";
@@ -29,6 +29,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/edit" element={<Edit />} />
+            <Route path="/delete" element={<Delete />} />
             <Route path="/passwordverify" element={<PasswordVerify />} />
             <Route path="/choice" element={<ChoicePage />} />
             <Route path="/restaurantInfo" element={<RestaurantInfo />} />
