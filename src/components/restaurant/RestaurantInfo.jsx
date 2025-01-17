@@ -8,27 +8,37 @@ const RestaurantInfo = () => {
     const promptResponse = state?.data;
     const keyword = state?.keyword;
 
+
     return (
-        <Container className="mt-5">
+        <Container className="mt-5 container">
             <h1 className="text-center mb-5">{keyword} 맛집 정보</h1>
-            <Row className="g-4">
+            <Row>
                 {promptResponse && promptResponse.length > 0 ? (
                     promptResponse.map((item, index) => (
-                        <Col key={index} xs={12} sm={6} md={4} lg={3}>
-                            <a href={item.link} target="_blank" rel="noopener noreferrer" className="card-link">
-                                <Card className="custom-card">
-                                    {/* 이미지 없이 텍스트만 */}
-                                    <Card.Body>
-                                        <Card.Title className="card-title">{item.title}</Card.Title>
-                                        <Card.Text className="card-text">
-                                            {item.description.length > 100
-                                                ? `${item.description.slice(0, 100)}...`
-                                                : item.description}
-                                        </Card.Text>
-                                        <div className="text-muted small">{item.postdate}</div>
-                                    </Card.Body>
-                                </Card>
-                            </a>
+                        <Col xs={12} key={index} className="post-container mb-4">
+                            <div className="post-header">
+                                <span className="username">{item.author}</span>　·
+                                <span className="timestamp">{item.time}</span>
+                            </div>
+                            <div className="post-content">
+                                <h2 className="post-title text-start">{item.title}</h2>
+                                <p className="post-description">{item.description}</p>
+                                <div className="image-gallery">
+                                    {Array.from({ length: 5 }).map((_, i) => {
+                                        const imageKey = `image${i + 1}`;
+                                        return (
+                                            item[imageKey] && (
+                                                <img
+                                                    key={imageKey}
+                                                    src={item[imageKey]}
+                                                    alt={`이미지 ${i + 1}`}
+                                                    className="gallery-image"
+                                                />
+                                            )
+                                        );
+                                    })}
+                                </div>
+                            </div>
                         </Col>
                     ))
                 ) : (
@@ -39,6 +49,24 @@ const RestaurantInfo = () => {
             </Row>
         </Container>
     );
-}
+
+
+};
 
 export default RestaurantInfo;
+// <Col key={index} xs={12} sm={6} md={4} lg={3}>
+//     <a href={item.link} target="_blank" rel="noopener noreferrer" className="card-link">
+//         <Card className="custom-card">
+//             {/* 이미지 없이 텍스트만 */}
+//             <Card.Body>
+//                 <Card.Title className="card-title">{item.title}</Card.Title>
+//                 <Card.Text className="card-text">
+//                     {item.description.length > 100
+//                         ? `${item.description.slice(0, 100)}...`
+//                         : item.description}
+//                 </Card.Text>
+//                 <div className="text-muted small">{item.postdate}</div>
+//             </Card.Body>
+//         </Card>
+//     </a>
+// </Col>
