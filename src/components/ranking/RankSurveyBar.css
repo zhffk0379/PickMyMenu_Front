@@ -1,0 +1,110 @@
+.rank-survey-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rank-survey-container h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.rank-survey-bar {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rank-survey-question {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.bar {
+  display: flex;
+  height: 25px;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #f0f0f0;
+  position: relative;
+}
+
+.bar-section {
+  height: 100%;
+  transition: width 0.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.bar-section-0 {
+  background-color: #00b34d; /* 초록색 */
+}
+
+.bar-section-1 {
+  background-color: #4d89ff; /* 파란색 */
+}
+
+.rank-survey-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.rank-survey-stats span {
+  width: 45%;
+  text-align: center;
+}
+
+.rank-survey-bar:hover {
+  background-color: #f1f1f1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rank-survey-question span {
+  color: #333;
+}
+
+/* 추가된 부분: 각 선택지에 맞는 색상을 텍스트에 적용 */
+.rank-survey-question .left-text {
+  color: #00b34d; /* 초록색 */
+}
+
+.rank-survey-question .right-text {
+  color: #4d89ff; /* 파란색 */
+}
+
+.bar-section-0 span,
+.bar-section-1 span {
+  color: white; /* 막대 내 숫자 색상 */
+}
+
+.bar-section-0 {
+  color: #00b34d; /* 초록색 */
+}
+
+.bar-section-1 {
+  color: #4d89ff; /* 파란색 */
+}
+
+/* 새로운 스타일 추가: 퍼센트 글자 색을 흰색으로 설정 */
+.percentage-text {
+  color: white;
+  font-weight: bold;
+}
