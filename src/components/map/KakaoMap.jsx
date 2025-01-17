@@ -14,12 +14,11 @@ const KakaoMap = ({ places, center }) => {
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    useEffect(() => {
-        console.log(resultMenuId)
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
-        document.head.appendChild(script);
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
+    document.head.appendChild(script);
 
         script.onload = () => {
             window.kakao.maps.load(() => {
