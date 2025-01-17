@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, {useEffect, useState, useRef} from 'react';
+import {motion, AnimatePresence} from "framer-motion";
+import {useLocation, useNavigate} from "react-router-dom";
 import axios from 'axios';
 
-const KakaoMap = ({ places, center }) => {
+const KakaoMap = ({places, center}) => {
     const mapRef = useRef(null);
     const [selectedPlaceUrl, setSelectedPlaceUrl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showList, setShowList] = useState(false);
     const location = useLocation();
-    const { keyword, resultMenuId } = location.state || {};
+    const {keyword, resultMenuId} = location.state || {};
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
     const [promptResponse, setPromptResponse] = useState(null); // 응답 데이터를 저장할 상태 추가
@@ -17,13 +17,14 @@ const KakaoMap = ({ places, center }) => {
     useEffect(() => {
         const lat = center.latitude;
         const lon = center.longitude;
-        axios.get("http://hhjnn92.synology.me:3022/search", {params: {text: keyword, lat, lon}})
-            .then((response) => {
-                setPromptResponse(response.data); // 받은 데이터를 상태에 저장
-            })
-            .catch((error) => {
-                console.error('API 호출 오류', error);
-            });
+        axios.get("http://hhjnn92.synology.me:3022/search",
+            {params: {text: keyword, lat, lon}})
+        .then((response) => {
+            setPromptResponse(response.data); // 받은 데이터를 상태에 저장
+        })
+        .catch((error) => {
+            console.error('API 호출 오류', error);
+        });
 
         console.log(resultMenuId);
         const script = document.createElement('script');
@@ -34,12 +35,14 @@ const KakaoMap = ({ places, center }) => {
         script.onload = () => {
             window.kakao.maps.load(() => {
                 const map = new window.kakao.maps.Map(mapRef.current, {
-                    center: new window.kakao.maps.LatLng(center.latitude, center.longitude),
+                    center: new window.kakao.maps.LatLng(center.latitude,
+                        center.longitude),
                     level: 3
                 });
 
                 new window.kakao.maps.Marker({
-                    position: new window.kakao.maps.LatLng(center.latitude, center.longitude),
+                    position: new window.kakao.maps.LatLng(center.latitude,
+                        center.longitude),
                     map: map,
                     image: new window.kakao.maps.MarkerImage(
                         "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
@@ -48,7 +51,8 @@ const KakaoMap = ({ places, center }) => {
                 });
 
                 places.forEach(place => {
-                    const position = new window.kakao.maps.LatLng(place.y, place.x);
+                    const position = new window.kakao.maps.LatLng(place.y,
+                        place.x);
                     const marker = new window.kakao.maps.Marker({
                         position: position,
                         map: map,
@@ -75,8 +79,10 @@ const KakaoMap = ({ places, center }) => {
 
                     window.kakao.maps.event.addListener(marker, "click", () => {
                         if (place.place_url.startsWith("http://")) {
-                            place.place_url = place.place_url.replace("http://", "https://");
-                            place.place_url = place.place_url.replace(".com/", ".com/m/");
+                            place.place_url = place.place_url.replace("http://",
+                                "https://");
+                            place.place_url = place.place_url.replace(".com/",
+                                ".com/m/");
                         }
                         setSelectedPlaceUrl(place.place_url);
                         setIsModalOpen(true);
@@ -111,12 +117,12 @@ const KakaoMap = ({ places, center }) => {
         };
 
         axios.post(`${apiUrl}/restaurant/saveInfo`, requestData)
-            .then((response) => {
-                navigate('/restaurant');
-            })
-            .catch((error) => {
-                console.error('POST 요청 중 오류 발생:', error);
-            });
+        .then((response) => {
+            navigate('/restaurant');
+        })
+        .catch((error) => {
+            console.error('POST 요청 중 오류 발생:', error);
+        });
     };
 
     // 맛집 정보 클릭 함수 - 다른 페이지로 데이터 넘기기
@@ -128,12 +134,18 @@ const KakaoMap = ({ places, center }) => {
             return;
         }
 
-        navigate('/restaurantInfo', { state: { data: promptResponse, keyword: keyword } });
+        navigate('/restaurantInfo',
+            {state: {data: promptResponse, keyword: keyword}});
     }
 
-
     return (
-        <div style={{display: "flex", width: "100%", height: "100vh", flexDirection: "column", overflow: "hidden"}}>
+        <div style={{
+            display: "flex",
+            width: "100%",
+            height: "100vh",
+            flexDirection: "column",
+            overflow: "hidden"
+        }}>
             {/* 지도 */}
             <div ref={mapRef} style={{
                 flex: 1,
@@ -228,7 +240,11 @@ const KakaoMap = ({ places, center }) => {
                     padding: "10px",
                     borderRadius: "10px",
                 }}>
-                    <h3 style={{textAlign: 'center', marginBottom: '15px', fontSize: '1.2em'}}>
+                    <h3 style={{
+                        textAlign: 'center',
+                        marginBottom: '15px',
+                        fontSize: '1.2em'
+                    }}>
                         '{keyword}' 검색 결과
                     </h3>
                     <ul style={{listStyle: 'none', padding: 0}}>
@@ -256,8 +272,13 @@ const KakaoMap = ({ places, center }) => {
                                     marginRight: '10px'
                                 }}>
                                     {place.image_url ? (
-                                        <img src={place.image_url} alt={place.place_name}
-                                             style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
+                                        <img src={place.image_url}
+                                             alt={place.place_name}
+                                             style={{
+                                                 width: '100%',
+                                                 height: '100%',
+                                                 objectFit: 'cover'
+                                             }}/>
                                     ) : (
                                         <div style={{
                                             width: '100%',
@@ -271,9 +292,18 @@ const KakaoMap = ({ places, center }) => {
                                     )}
                                 </div>
                                 <div>
-                                    <div style={{fontWeight: 'bold', fontSize: '1em'}}>{place.place_name}</div>
-                                    <div style={{fontSize: '0.9em', color: '#555'}}>{place.address_name}</div>
-                                    <div style={{fontSize: '0.8em', color: '#888'}}>{place.phone}</div>
+                                    <div style={{
+                                        fontWeight: 'bold',
+                                        fontSize: '1em'
+                                    }}>{place.place_name}</div>
+                                    <div style={{
+                                        fontSize: '0.9em',
+                                        color: '#555'
+                                    }}>{place.address_name}</div>
+                                    <div style={{
+                                        fontSize: '0.8em',
+                                        color: '#888'
+                                    }}>{place.phone}</div>
                                 </div>
                             </li>
                         ))}
@@ -285,10 +315,10 @@ const KakaoMap = ({ places, center }) => {
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 50 }}
-                        transition={{ type: "spring", stiffness: 100 }}
+                        initial={{opacity: 0, y: 50}}
+                        animate={{opacity: 1, y: 0}}
+                        exit={{opacity: 0, y: 50}}
+                        transition={{type: "spring", stiffness: 100}}
                         style={{
                             position: "fixed",
                             top: 0,
@@ -317,16 +347,23 @@ const KakaoMap = ({ places, center }) => {
                             }}
                         >
                             {/* Iframe or Placeholder */}
-                            <div style={{ flex: 1, overflow: "hidden" }}>
+                            <div style={{flex: 1, overflow: "hidden"}}>
                                 {selectedPlaceUrl ? (
                                     <iframe
                                         src={selectedPlaceUrl}
-                                        style={{ width: "100%", height: "100%", border: "none" }}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            border: "none"
+                                        }}
                                         title="Place Info"
                                         frameBorder="0"
                                     />
                                 ) : (
-                                    <p style={{ textAlign: "center", margin: "20px" }}>
+                                    <p style={{
+                                        textAlign: "center",
+                                        margin: "20px"
+                                    }}>
                                         장소 정보가 없습니다.
                                     </p>
                                 )}
@@ -360,7 +397,9 @@ const KakaoMap = ({ places, center }) => {
                                 {/* "식당 이용하기" 버튼은 선택된 장소에 대해서만 보여지도록 수정 */}
                                 {selectedPlaceUrl && (
                                     <button
-                                        onClick={() => handleApiCall(places.find(place => place.place_url === selectedPlaceUrl))}
+                                        onClick={() => handleApiCall(
+                                            places.find(place => place.place_url
+                                                === selectedPlaceUrl))}
                                         style={{
                                             padding: "10px 20px",
                                             backgroundColor: "#28a745",
