@@ -17,7 +17,8 @@ const KakaoMap = ({ places, center }) => {
     useEffect(() => {
         const lat = center.latitude;
         const lon = center.longitude;
-        axios.get("http://hhjnn92.synology.me:3025/search", {params: {text: keyword, lat, lon}})
+        axios.get("https://hhjnn92.synology.me:3027/search", {params: {text: keyword, lat, lon}})
+        // axios.get("http://hhjnn92.synology.me:3025/search", {params: {text: keyword, lat, lon}})
         // axios.get("http://localhost:3025/search", {params: {text: keyword, lat, lon}})
             .then((response) => {
                 setPromptResponse(response.data); // 받은 데이터를 상태에 저장
