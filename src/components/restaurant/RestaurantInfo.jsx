@@ -16,13 +16,17 @@ const RestaurantInfo = () => {
                 {promptResponse && promptResponse.length > 0 ? (
                     promptResponse.map((item, index) => (
                         <Col xs={12} key={index} className="post-container mb-4">
+                            <a className="url" href={item.url}>
                             <div className="post-header">
-                                <span className="username">{item.author}</span>　·
+                                <span className="username">{item.author}</span>　·　
                                 <span className="timestamp">{item.time}</span>
                             </div>
+                            </a>
                             <div className="post-content">
-                                <h2 className="post-title text-start">{item.title}</h2>
-                                <p className="post-description">{item.description}</p>
+                                <a className="url" href={item.url}>
+                                    <h2 className="post-title text-start">{item.title}</h2>
+                                    <p className="post-description">{item.description}</p>
+                                </a>
                                 <div className="image-gallery">
                                     {Array.from({ length: 5 }).map((_, i) => {
                                         const imageKey = `image${i + 1}`;
