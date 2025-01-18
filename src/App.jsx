@@ -4,11 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext'; // AuthContext 임포트
 import { HomePage, MapPage } from './routes';
 import { Join, Login, MyPage, PasswordVerify, Edit, Delete } from './components/member';
-import Group1Page from "./components/survey/Group1Page";
-import Group2Page from "./components/survey/Group2Page";
-import Group3Page from "./components/survey/Group3Page";
-import RandomParent from "./components/survey/RandomParent";
-import RandomChild from "./components/survey/RandomChild";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from "./components/layout/Layout";
 import SurveyResult from "./components/survey/SurveyResult";
 import Ranking from "./routes/Ranking";
@@ -24,7 +21,6 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} /> {/* 메인 페이지 */}
             <Route path="/map" element={<MapPage />} /> {/* 지도 페이지 */}
-
             <Route path="/join" element={<Join />} />
             <Route path="/login" element={<Login />} />
             <Route path="/mypage" element={<MyPage />} />
@@ -39,6 +35,7 @@ function App() {
           </Routes>
         </Layout>
       </Router>
+      <ToastContainer /> {/* ToastContainer 추가 */}
     </AuthProvider>
   );
 }
