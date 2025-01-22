@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from '../../contexts/AuthContext'; // useAuth 임포트
 import './header.css';
-import axios from 'axios'; // axios 임포트
+import axios from 'axios';
+import {Navbar} from "react-bootstrap"; // axios 임포트
 
 const Header = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -23,28 +24,26 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-container">
-        <Link to="/" className="logo">PMM</Link>
-        <nav>
+        <Link to="/" className="logo fs-1">PMM</Link>
+        <Navbar className={"d-flex align-items-center"}>
           <ul>
-            <li><Link to="/">홈</Link></li>
-            {/*<li><Link to="/map">지도</Link></li>*/}
-            <li><Link to="/choice">설문 1</Link></li>
-            <li><Link to="/ai">설문 2</Link></li>
+            <li><Link className={"fs-5"} to="/review">리뷰</Link></li>
+            <li><Link className={"fs-5"} to="/ranking">순위</Link></li>
 
             {isAuthenticated ? (
               <>
                 {/* 로그아웃 링크를 기존 스타일과 동일하게 */}
-                <li><Link to="/" onClick={handleLogout}>로그아웃</Link></li>
-                <li><Link to="/mypage">마이페이지</Link></li>
+                <li><Link className={"fs-5"} to="/" onClick={handleLogout}>로그아웃</Link></li>
+                <li><Link className={"fs-5"} to="/mypage">마이페이지</Link></li>
               </>
             ) : (
               <>
-                <li><Link to="/login">로그인</Link></li>
-                <li><Link to="/join">회원가입</Link></li>
+                <li><Link className={"fs-5"} to="/login">로그인</Link></li>
+                <li><Link className={"fs-5"} to="/join">회원가입</Link></li>
               </>
             )}
           </ul>
-        </nav>
+        </Navbar>
       </div>
     </header>
   );

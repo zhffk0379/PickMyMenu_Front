@@ -54,12 +54,24 @@ const ChoicePage = () => {
     <Container className="mt-5">
       <Row className="text-center mb-4">
         <Col>
-          <h2 className="fw-bold text-dark">첫번째 선택지</h2>
+          {/* 페이지 제목이나 설명 추가 가능 */}
         </Col>
       </Row>
-      <Row>
-        <Survey question={nowData?.question0} onSelect={() => handleSurveySelect(false)}></Survey>
-        <Survey question={nowData?.question1} onSelect={() => handleSurveySelect(true)}></Survey>
+      <Row className="d-flex flex-column align-items-center">
+        {/* 첫 번째 Survey */}
+        <Col xs={12} md={8} className="mb-4">
+          <Survey question={nowData?.question0} onSelect={() => handleSurveySelect(false)} />
+        </Col>
+
+        {/* VS 텍스트 */}
+        <Col xs={12} className="text-center mb-4">
+          <h3 className="fw-bold text-dark" style={{ fontSize: '2rem' }}>VS</h3>
+        </Col>
+
+        {/* 두 번째 Survey */}
+        <Col xs={12} md={8}>
+          <Survey question={nowData?.question1} onSelect={() => handleSurveySelect(true)} />
+        </Col>
       </Row>
     </Container>
   )
