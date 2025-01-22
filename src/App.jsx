@@ -13,6 +13,8 @@ import ChoicePage from "./routes/ChoicePage";
 import Restaurant from "./components/restaurant/Restaurant";
 import RestaurantInfo from "./components/restaurant/RestaurantInfo";
 import Review from "./components/review/Review";
+import MyRestaurantInfo from "./components/member/MyRestaurantInfo";
+import MyInfo from "./components/member/MyInfo";
 
 function App() {
   return (
@@ -22,22 +24,20 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} /> {/* 메인 페이지 */}
             <Route path="/map" element={<MapPage />} /> {/* 지도 페이지 */}
+
             <Route path="/join" element={<Join />} />
             <Route path="/login" element={<Login />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/edit" element={<Edit />} />
-            <Route path="/delete" element={<Delete />} />
             <Route path="/passwordverify" element={<PasswordVerify />} />
             <Route path="/choice" element={<ChoicePage />} />
             <Route path="/restaurantInfo" element={<RestaurantInfo />} />
             <Route path="/result" element={<SurveyResult />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/restaurant" element={<Restaurant />} />
-            <Route path="/review" element={<Review />} />
           </Routes>
         </Layout>
       </Router>
-      <ToastContainer /> {/* ToastContainer 추가 */}
     </AuthProvider>
   );
 }
