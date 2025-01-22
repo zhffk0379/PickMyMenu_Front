@@ -1,7 +1,7 @@
+/* 기존 스타일 */
 .header {
   background-color: #2c3e50;
-  padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 0.3rem 0;
 }
 
 .header-container {
@@ -9,7 +9,7 @@
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* 수직 중앙 정렬 추가 */
   padding: 0 20px;
 }
 
@@ -22,12 +22,12 @@
 
 nav ul {
   list-style-type: none;
-  padding: 0;
   display: flex;
 }
 
 nav ul li {
-  margin-left: 1rem;
+  margin-left: 1.5rem;
+  margin-top: 10px;
 }
 
 nav ul li a {
@@ -35,11 +35,12 @@ nav ul li a {
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  transition: background-color 0.3s;
+  background-color: #289735;
+  transition: background-color 0.2s;
 }
 
 nav ul li a:hover {
-  background-color: #34495e;
+  background-color: #287715;
 }
 
 /* 태블릿 크기 */
