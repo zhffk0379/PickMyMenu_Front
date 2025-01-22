@@ -6,7 +6,7 @@ const Survey = ({question, onSelect}) => {
 
   if (!question) {
     return (
-      <Col key="0" xs={12} md={6} className="mb-4">
+      <Col key="0" xs={12} md={12} className="mb-4">
         <div
           className="choice-card shadow-lg rounded-4 p-5 h-100 d-flex align-items-center justify-content-center"
           style={{
@@ -27,7 +27,7 @@ const Survey = ({question, onSelect}) => {
   }
 
   return (
-    <Col key="0" xs={12} md={6} className="mb-4">
+    <Col key="0" xs={12} md={12} className="mb-4">
       <div
         onClick={() => onSelect(question)}
         className="choice-card shadow-lg rounded-4 p-5 h-100 d-flex align-items-center justify-content-center"

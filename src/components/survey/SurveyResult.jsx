@@ -1,6 +1,6 @@
 import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {Col, Container, Row} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Col, Container, Row, Spinner} from "react-bootstrap";
 import axios from "axios";
 
 function SurveyResult() {
@@ -64,24 +64,32 @@ function SurveyResult() {
     });
   };
 
+  const renderSpinner = (message) => (
+    <Container className="d-flex justify-content-center align-items-center"
+               style={{height: '100vh'}}>
+      <div className="text-center">
+        <Spinner animation="border" variant="primary" role="status"/>
+        <div className="mt-3">{message}</div>
+      </div>
+    </Container>
+  );
+
   return (
     <Container>
       {loading && (
-        <Row className="text-center mb-4">
-          <Col>
-            <h2 className="fw-bold text-dark">메뉴 추천중...</h2>
-          </Col>
-        </Row>
+        <Container
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: '50vh', marginTop: '10vh' }}
+        >
+          <Row className="text-center">
+            {renderSpinner("메뉴 추천중...")}
+          </Row>
+        </Container>
       )}
 
       {foodRecommendations.length > 0 && !loading && (
         <>
-          <Row className="text-center mb-4">
-            <Col>
-              <h2 className="fw-bold text-dark">추천된 음식</h2>
-            </Col>
-          </Row>
-          <Row>
+          <Row className={"mt-5"}>
             {foodRecommendations.map((item, index) => (
               <Col key={item} xs={12} md={4} className="mb-4">
                 <div

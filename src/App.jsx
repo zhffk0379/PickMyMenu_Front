@@ -12,6 +12,7 @@ import Ranking from "./routes/Ranking";
 import ChoicePage from "./routes/ChoicePage";
 import Restaurant from "./components/restaurant/Restaurant";
 import RestaurantInfo from "./components/restaurant/RestaurantInfo";
+import Review from "./components/review/Review";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/result" element={<SurveyResult />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/restaurant" element={<Restaurant />} />
+            <Route path="/review" element={<Review />} />
           </Routes>
         </Layout>
       </Router>
