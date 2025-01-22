@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useAuth } from '../../contexts/AuthContext'; // useAuth 임포트
 import './header.css';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import {Navbar} from "react-bootstrap"; // axios 임포트
 
 const Header = () => {
   const { isAuthenticated, logout } = useAuth();
+  let navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -21,14 +22,24 @@ const Header = () => {
     }
   };
 
+  const isLogin = (e) => {
+    if(!isAuthenticated){
+      e.preventDefault();
+      const process = window.confirm("로그인이 필요한 서비스입니다. 회원가입 페이지로 이동하시겠습니까?");
+      if (process) {
+        navigate("/join");
+      }
+    }
+  }
+
   return (
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo fs-1">PMM</Link>
         <Navbar className={"d-flex align-items-center"}>
           <ul>
-            <li><Link className={"fs-5"} to="/review">리뷰</Link></li>
-            <li><Link className={"fs-5"} to="/ranking">순위</Link></li>
+            <li><Link className={"fs-5"} to="/review" onClick={isLogin}>리뷰</Link></li>
+            <li><Link className={"fs-5"} to="/ranking" onClick={isLogin}>순위</Link></li>
 
             {isAuthenticated ? (
               <>
