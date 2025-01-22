@@ -1,0 +1,343 @@
+/* MyResMap.css */
+.map-container {
+    width: 80%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.map {
+    flex: 1;
+    width: 100%;
+    height: calc(100vh - 72px - 60px); /* 헤더와 버튼을 제외한 영역 */
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.toggle-button {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    z-index: 10;
+    padding: 10px 20px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.list-container {
+    position: absolute;
+    top: 80px;
+    left: 70px;
+    width: 330px;
+    height: calc(100vh - 72px - 80px); /* 헤더 및 버튼 제외 */
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 15;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.visit-history-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.restaurant-list {
+    list-style: none;
+    padding: 0;
+}
+
+.restaurant-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.restaurant-item:hover {
+    background-color: #f1f1f1;
+}
+
+.restaurant-image-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.restaurant-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.restaurant-details {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.restaurant-menu {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.restaurant-address {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.review-button {
+    padding: 4px 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-button.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.review-button.active:hover {
+    background-color: #45a049;
+}
+
+.review-button.disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.motion-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-container {
+    width: 90%;
+    max-width: 800px;
+    height: 80%;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 위와 아래 공간 확보 */
+}
+
+.place-info-container {
+    flex: 1;
+    overflow: hidden;
+}
+
+.place-info-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.place-info-placeholder {
+    text-align: center;
+    margin: 20px;
+}
+
+.bottom-button-area {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+    border-top: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.modal-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-button-close {
+    background-color: gray;
+    color: white;
+}
+
+.modal-button-review {
+    background-color: blue;
+    color: white;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-container {
+    width: 90%;
+    max-width: 900px;
+    height: 80%;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+/*-----------------------------------------*/
+.modal-header {
+    padding: 20px;
+    background-color: #4CAF50; /* 초록색 배경 */
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+/*-----------------------------------------*/
+
+
+.restaurant-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.restaurant-info {
+    margin-bottom: 20px;
+    display: flex; /* 좌우 배치 */
+    justify-content: space-between;
+}
+
+.restaurant-name {
+    font-size: 28px;
+    font-weight: 600;
+    margin-top: 30px;
+}
+
+.place-name-value {
+    color: #555;
+}
+
+.menu-name {
+    font-size: 22px;
+    font-weight: 500;
+    margin-top: 30px;
+    color: #777;
+}
+
+.menu-value {
+    color: #555;
+}
+
+.review-label {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+}
+
+.review-textarea {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.review-rating-container {
+    margin-bottom: 100px;
+}
+
+.review-rating-label {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+}
+
+.star-rating {
+    display: flex;
+}
+
+.star-icon {
+    cursor: pointer;
+    transition: color 0.2s ease; /* 클릭 시 색상 부드럽게 변경 */
+    margin-right: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 20px;
+    background-color: #f1f1f1;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.close-button,
+.submit-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.close-button {
+    background-color: #aaa;
+    color: white;
+}
+
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+}
