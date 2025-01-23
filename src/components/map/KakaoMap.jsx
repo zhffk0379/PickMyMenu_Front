@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const KakaoMap = ({ places, center }) => {
@@ -12,20 +13,21 @@ const KakaoMap = ({ places, center }) => {
     const { keyword, resultMenuId } = location.state || {};
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
+    const pythonUrl = process.env.REACT_APP_PYTHON_API_URL;
     const [promptResponse, setPromptResponse] = useState(null); // 응답 데이터를 저장할 상태 추가
 
     useEffect(() => {
         const lat = center.latitude;
         const lon = center.longitude;
-        axios.get("http://hhjnn92.synology.me:3022/search", {params: {text: keyword, lat, lon}})
+        axios.get(`${pythonUrl}/search`, {params: {text: keyword, lat, lon}})
             .then((response) => {
+
                 setPromptResponse(response.data); // 받은 데이터를 상태에 저장
             })
             .catch((error) => {
                 console.error('API 호출 오류', error);
             });
 
-        console.log(resultMenuId);
         const script = document.createElement('script');
         script.async = true;
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
@@ -104,7 +106,6 @@ const KakaoMap = ({ places, center }) => {
 
     // 식당 이용하기 클릭 함수
     const handleApiCall = (place) => {
-        console.log("resultMenuId", resultMenuId);
         const requestData = {
             ...place,
             resultMenuId: resultMenuId
