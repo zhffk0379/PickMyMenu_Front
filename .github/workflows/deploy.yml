@@ -20,6 +20,7 @@ jobs:
           echo "REACT_APP_NAVER_MAP_CLIENT_ID=${{ secrets.REACT_APP_NAVER_MAP_CLIENT_ID }}" > .env
           echo "REACT_APP_KAKAO_MAP_KEY=${{ secrets.REACT_APP_KAKAO_MAP_KEY }}" >> .env
           echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> .env
+          echo "REACT_APP_PYTHON_API_URL=${{ secrets.REACT_APP_PYTHON_API_URL }}" >> .env
           echo "CI=false" >> .env
           echo "HOST=0.0.0.0" >> .env 
 
@@ -41,6 +42,7 @@ jobs:
           --build-arg REACT_APP_NAVER_MAP_CLIENT_ID=${{ secrets.REACT_APP_NAVER_MAP_CLIENT_ID }} \
           --build-arg REACT_APP_KAKAO_MAP_KEY=${{ secrets.REACT_APP_KAKAO_MAP_KEY }} \
           --build-arg REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }} \
+          --build-arg REACT_APP_PYTHON_API_URL=${{ secrets.REACT_APP_PYTHON_API_URL }} \
           -t pmmfront . 
 
       # Docker 이미지를 DockerHub에 푸시
