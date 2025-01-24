@@ -102,13 +102,12 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
     // 리스트에서 리뷰 등록하기 클릭시 리뷰 모달 열기
     const ReviewModalOpen = () => {
         setIsModalOpen(false);
-        setIsImageUploadModalOpen(true)
-        // setIsReviewModalOpen(true);
+        setIsReviewModalOpen(true);
     }
 
     // 리뷰쓰기 버튼 클릭 함수
     const handleApiCall = (resData) => {
-        // setIsReviewModalOpen(true);
+        setIsReviewModalOpen(true);
         setPlaceName(resData.place_name)
         setId(resData.id)
         setMenu(resData.menu)
@@ -180,7 +179,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                     },
                 }
             );
-            console.log(response)
+
             // 성공 시 처리
             if (response.status === 200) {
                 alert("리뷰가 등록되었습니다!");
@@ -343,19 +342,20 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                 borderRadius: "10px",
                                 backgroundColor: "#fff",
                                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                                width: "40%"
                             }}
                         >
                             {/* 문구 */}
                             <label
                                 style={{
-                                    fontSize: "18px",
-                                    fontWeight: "500",
+                                    fontSize: "22px",
+                                    fontWeight: "700",
                                     color: "#333",
                                     marginBottom: "15px",
                                     textAlign: "center",
                                 }}
                             >
-                                리뷰를 작성하기 전에, 업체명이나 주소가 보이는 영수증 또는 간판 사진을 업로드해 주세요.
+                                리뷰를 작성 전에 업체명이나 주소를 확인할 수 있는 영수증 <br/> 또는 업체명이 보이는 간판 사진을 업로드해 주세요.
                             </label>
 
                             {/* 이미지 업로드 input */}
@@ -374,21 +374,6 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                 }}
                             />
 
-                            {/* 업로드 버튼 */}
-                            <button
-                                onClick={handleImageChange} // 이미지 업로드 버튼 클릭 시 호출
-                                style={{
-                                    padding: "12px 24px",
-                                    backgroundColor: "#007bff",
-                                    color: "#fff",
-                                    border: "none",
-                                    borderRadius: "8px",
-                                    cursor: "pointer",
-                                    fontSize: "16px",
-                                }}
-                            >
-                                이미지 업로드
-                            </button>
 
                             {/* 서버 응답 대기 중일 때 Spinner */}
                             {isImageUploading && (
