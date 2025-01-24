@@ -107,7 +107,6 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
 
     // 리뷰쓰기 버튼 클릭 함수
     const handleApiCall = (resData) => {
-        setIsReviewModalOpen(true);
         setPlaceName(resData.place_name)
         setId(resData.id)
         setMenu(resData.menu)
@@ -145,7 +144,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                     setIsReviewModalOpen(true);  // 리뷰 모달 열기
                 } else {
                     alert("업체명 혹은 주소가 일치하지 않습니다. 다시 시도해주세요.");
-                    setIsImageUploadModalOpen(false);  // 이미지 업로드 모달 재오픈
+                    setIsImageUploadModalOpen(false);
                 }
             } catch (error) {
                 console.error("이미지 업로드 실패:", error);
@@ -245,6 +244,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                         {resData.place_name} · <span className="restaurant-menu">{resData.menu}</span>
                                     </div>
                                     <div className="restaurant-address">{resData.address_name}</div>
+                                    <div className="restaurant-date">방문 날짜 : {resData.createdDate}</div>
                                     <div style={{marginTop: '5px'}}>
                                         {resData.isReviewed == 0 ? (
                                             <button
