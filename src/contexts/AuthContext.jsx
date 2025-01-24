@@ -1,5 +1,6 @@
 // AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 // 로그인 상태를 관리할 Context 생성
@@ -73,6 +74,7 @@ export const AuthProvider = ({ children }) => {
                     setIsAuthenticated(true);
                 }
             } catch (error) {
+                Cookies.remove('token');
                 console.error('토큰 인증 실패:', error.response?.data || error.message);
                 setIsAuthenticated(false);
             }

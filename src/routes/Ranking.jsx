@@ -17,8 +17,6 @@ const Ranking = () => {
     getRankSurvey({type: type}).then((data) => {
       setSurveyRankData(data.data);
     });
-    console.log("surveyRankData", surveyRankData);
-
   }, []);
 
   useEffect(() => {
