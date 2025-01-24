@@ -1,89 +1,35 @@
-/* 마이페이지 컨테이너 스타일 */
-.mypage-container {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 제목 스타일 */
-h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #343a40;
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-/* 폼 그룹 스타일 */
-.mypage-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-group label {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #495057;
-}
-
-.form-group input {
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    color: #495057;
-}
-
-.form-group input[readonly] {
-    background-color: #e9ecef;
-}
-
-/* 버튼 컨테이너 스타일 */
-.mypage-buttons {
+.mypage-tabs {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-/* 공통 버튼 스타일 */
-.mypage-buttons button {
-    padding: 8px 24px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 200px;
+.mypage-tab {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 12px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
-/* 회원정보 수정 버튼 스타일 */
-.mypage-buttons .edit-button {
-    background-color: #007bff; /* 파란색 */
+.mypage-tab:hover {
+    background-color: #4CAF50;
     color: white;
+    transform: scale(1.05);
 }
 
-.mypage-buttons .edit-button:hover {
-    background-color: #0056b3; /* hover 시 색상 변경 */
-}
-
-/* 회원탈퇴 버튼 스타일 */
-.mypage-buttons .delete-button {
-    background-color: #6c757d; /* 회색 */
+.active-tab {
+    background-color: #4CAF50;
     color: white;
+    font-weight: bold;
+    transform: scale(1.05);
 }
 
-.mypage-buttons .delete-button:hover {
-    background-color: #5a6268; /* hover 시 어두운 회색으로 변경 */
+.mypage-tab:focus {
+    outline: none;
 }

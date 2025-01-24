@@ -77,4 +77,4 @@ jobs:
       # 새로운 컨테이너 실행
       - name: Run new container on Synology NAS
         run: |
-          sshpass -p "${{ secrets.SYNOLGY_PASSWORD }}" ssh -o StrictHostKeyChecking=no hhjnn92@hhjnn92.synology.me "echo '${{ secrets.SYNOLGY_PASSWORD }}' | sudo -S /usr/local/bin/docker run --name pmmfront -d -p 3020:3000 ${{ secrets.DOCKER_USERNAME }}/pmmfront:latest"
+          sshpass -p "${{ secrets.SYNOLGY_PASSWORD }}" ssh -o StrictHostKeyChecking=no hhjnn92@hhjnn92.synology.me "echo '${{ secrets.SYNOLGY_PASSWORD }}' | sudo -S /usr/local/bin/docker run --name pmmfront -d -p 7051:3000 ${{ secrets.DOCKER_USERNAME }}/pmmfront:latest"

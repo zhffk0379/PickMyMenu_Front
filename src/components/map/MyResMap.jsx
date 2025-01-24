@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {AnimatePresence, motion} from "framer-motion";
-import { Modal, Button, Form, Rating } from 'react-bootstrap';
+import {Modal, Button, Form, Rating, Container, Spinner} from 'react-bootstrap';
 import { FaStar } from 'react-icons/fa'; // 별 아이콘
 import './MyResMap.css'
 import axios from "axios";
@@ -15,11 +15,14 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
     const [address, setAddress] = useState(null);
     const [roadAddress, setRoadAddress] = useState(null);
     const [id, setId] = useState(null);
+    const [resultMenuId, setResultMenuId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-    const [isImageUploadModalOpen, setIsImageUploadModalOpen] = useState(true); // 이미지 업로드 모달 상태
+    const [isImageUploadModalOpen, setIsImageUploadModalOpen] = useState(false); // 이미지 업로드 모달 상태
     const [showList, setShowList] = useState(false);
     const [rating, setRating] = useState(5); // 별점 상태
+    const [isImageUploading, setIsImageUploading] = useState(false);  // 이미지 업로드 상태
+    const pythonUrl = process.env.REACT_APP_PYTHON_API_URL;
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -84,6 +87,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                     setAddress(restaurant.address_name)
                                     setRoadAddress(restaurant.road_address_name)
                                     setId(restaurant.id)
+                                    setResultMenuId(restaurant.result_menu_id)
                                 });
                             }
                         });
@@ -98,44 +102,56 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
     // 리스트에서 리뷰 등록하기 클릭시 리뷰 모달 열기
     const ReviewModalOpen = () => {
         setIsModalOpen(false);
-        setIsReviewModalOpen(true);
+        setIsImageUploadModalOpen(true)
+        // setIsReviewModalOpen(true);
     }
 
     // 리뷰쓰기 버튼 클릭 함수
     const handleApiCall = (resData) => {
-        setIsReviewModalOpen(true);
+        // setIsReviewModalOpen(true);
         setPlaceName(resData.place_name)
+        setId(resData.id)
         setMenu(resData.menu)
         setPhone(resData.phone)
         setAddress(resData.address_name)
         setRoadAddress(resData.road_address_name)
-        setId(resData.id)
+        setResultMenuId(resData.result_menu_id)
 
-
+        setIsImageUploadModalOpen(true)
     };
 
 
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
+            setIsImageUploading(true);  // 업로드 시작 시 true로 설정
             try {
                 const formData = new FormData();
-                formData.append("file", file);  // 파일 추가
-                formData.append("placeName", placeName);  // 장소 이름 추가
-                formData.append("phone", phone);  // 전화번호 추가
-                formData.append("address", address);  // 주소 추가
-                formData.append("roadAddress", roadAddress);  // 도로명 주소 추가
+                formData.append("file", file);
+                formData.append("placeName", placeName);
+                formData.append("phone", phone);
+                formData.append("address", address);
+                formData.append("roadAddress", roadAddress);
 
-                // 서버에 POST 요청 보내기
-                const response = await axios.post("http://localhost:2030/image", formData, {
+                const response = await axios.post(`${pythonUrl}/image`, formData, {
                     headers: {
-                        "Content-Type": "multipart/form-data",  // 파일 전송을 위한 Content-Type
+                        "Content-Type": "multipart/form-data",
                     },
                 });
 
-                console.log("이미지 업로드 성공:", response);
+                // 서버 응답 처리
+                if (response.data === true) {
+                    alert("확인이 완료되었습니다. 리뷰를 작성해주세요.");
+                    setIsImageUploadModalOpen(false);  // 이미지 업로드 모달 닫기
+                    setIsReviewModalOpen(true);  // 리뷰 모달 열기
+                } else {
+                    alert("업체명 혹은 주소가 일치하지 않습니다. 다시 시도해주세요.");
+                    setIsImageUploadModalOpen(false);  // 이미지 업로드 모달 재오픈
+                }
             } catch (error) {
                 console.error("이미지 업로드 실패:", error);
+            } finally {
+                setIsImageUploading(false);  // 업로드 완료 후 false로 설정
             }
         }
     };
@@ -145,12 +161,13 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
         const content = document.getElementById("reviewText").value;
         const ratingCount = rating;
         const idx = id;
-        console.log(content, ratingCount, idx)
+        const resultId = resultMenuId;
 
         const data = {
-            content: content,    // reviewText로 수정
-            rating: ratingCount,    // rating으로 수정
-            id: idx,         // placeName으로 수정
+            content: content,
+            rating: ratingCount,
+            restaurantId: idx,
+            resultMenuId: resultId,
         };
 
         try {
@@ -163,7 +180,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                     },
                 }
             );
-
+            console.log(response)
             // 성공 시 처리
             if (response.status === 200) {
                 alert("리뷰가 등록되었습니다!");
@@ -177,6 +194,15 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
         }
     };
 
+
+    const renderSpinner = (message) => (
+        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+            <div className="text-center">
+                <Spinner animation="border" variant="primary" role="status" />
+                <div className="mt-3">{message}</div>
+            </div>
+        </Container>
+    );
 
 
     return (
@@ -296,6 +322,88 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                 )}
             </AnimatePresence>
 
+            {/*이미지 업로드 모달*/}
+            <AnimatePresence>
+                {isImageUploadModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ type: "spring", stiffness: 100 }}
+                        className="motion-div"
+                    >
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                marginLeft: "20px",
+                                padding: "20px",
+                                borderRadius: "10px",
+                                backgroundColor: "#fff",
+                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                                width: "40%"
+                            }}
+                        >
+                            {/* 문구 */}
+                            <label
+                                style={{
+                                    fontSize: "22px",
+                                    fontWeight: "700",
+                                    color: "#333",
+                                    marginBottom: "15px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                리뷰를 작성 전에 업체명이나 주소를 확인할 수 있는 영수증 <br/> 또는 업체명이 보이는 간판 사진을 업로드해 주세요.
+                            </label>
+
+                            {/* 이미지 업로드 input */}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                style={{
+                                    padding: "10px",
+                                    fontSize: "16px",
+                                    borderRadius: "8px",
+                                    border: "1px solid #ccc",
+                                    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                                    fontFamily: "Arial, sans-serif",
+                                    marginBottom: "20px",
+                                }}
+                            />
+
+
+                            {/* 서버 응답 대기 중일 때 Spinner */}
+                            {isImageUploading && (
+                                <div style={{marginTop: "20px", textAlign: "center"}}>
+                                    {renderSpinner("확인 중...")}
+                                </div>
+                            )}
+
+                            <button
+                                onClick={() => setIsImageUploadModalOpen(false)} // 모달 닫기
+                                style={{
+                                    padding: "10px 20px",
+                                    backgroundColor: "#f44336",
+                                    color: "#fff",
+                                    border: "none",
+                                    borderRadius: "8px",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    marginTop: "15px",
+                                }}
+                            >
+                                닫기
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+
             {/* 리뷰 작성 모달 */}
             <AnimatePresence>
                 {isReviewModalOpen && (
@@ -335,45 +443,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                         <h6 className="menu-name">
                                             메뉴 : <span className="menu-value">{menu}</span>
                                         </h6>
-
-                                        <span>{phone}{address}{roadAddress}{id}</span>
                                     </div>
-
-                                    {/* 오른쪽 사진 업로드 부분 */}
-                                    {/*<div*/}
-                                    {/*    style={{*/}
-                                    {/*        display: "flex",*/}
-                                    {/*        flexDirection: "column",*/}
-                                    {/*        justifyContent: "center",*/}
-                                    {/*        alignItems: "center",*/}
-                                    {/*        marginLeft: "20px",*/}
-                                    {/*    }}*/}
-                                    {/*>*/}
-                                    {/*    <label*/}
-                                    {/*        style={{*/}
-                                    {/*            fontSize: "18px",*/}
-                                    {/*            fontWeight: "500",*/}
-                                    {/*            color: "#333",*/}
-                                    {/*            marginBottom: "10px",*/}
-                                    {/*        }}*/}
-                                    {/*    >*/}
-                                    {/*        영수증 혹은 간판사진을 업로드해주세요*/}
-                                    {/*    </label>*/}
-                                    {/*    <input*/}
-                                    {/*        type="file"*/}
-                                    {/*        accept="image/*"*/}
-                                    {/*        onChange={handleImageChange}*/}
-                                    {/*        style={{*/}
-                                    {/*            padding: "10px",*/}
-                                    {/*            fontSize: "16px",*/}
-                                    {/*            borderRadius: "8px",*/}
-                                    {/*            border: "1px solid #ccc",*/}
-                                    {/*            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",*/}
-                                    {/*            fontFamily: "Arial, sans-serif",*/}
-                                    {/*        }}*/}
-                                    {/*    />*/}
-                                    {/*</div>*/}
-
                                 </div>
 
                                 {/* 리뷰 내용 */}

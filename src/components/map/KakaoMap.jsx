@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const KakaoMap = ({ places, center }) => {
@@ -12,20 +13,21 @@ const KakaoMap = ({ places, center }) => {
     const { keyword, resultMenuId } = location.state || {};
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
+    const pythonUrl = process.env.REACT_APP_PYTHON_API_URL;
     const [promptResponse, setPromptResponse] = useState(null); // 응답 데이터를 저장할 상태 추가
 
     useEffect(() => {
         const lat = center.latitude;
         const lon = center.longitude;
-        axios.get("http://hhjnn92.synology.me:3022/search", {params: {text: keyword, lat, lon}})
+        axios.get(`${pythonUrl}/search`, {params: {text: keyword, lat, lon}})
             .then((response) => {
+
                 setPromptResponse(response.data); // 받은 데이터를 상태에 저장
             })
             .catch((error) => {
                 console.error('API 호출 오류', error);
             });
 
-        console.log(resultMenuId);
         const script = document.createElement('script');
         script.async = true;
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
@@ -104,18 +106,35 @@ const KakaoMap = ({ places, center }) => {
 
     // 식당 이용하기 클릭 함수
     const handleApiCall = (place) => {
-        console.log("resultMenuId", resultMenuId);
-        const requestData = {
-            ...place,
-            resultMenuId: resultMenuId
-        };
-
-        axios.post(`${apiUrl}/restaurant/saveInfo`, requestData)
+        // 먼저 JWT 토큰을 확인하는 요청을 보냅니다
+        axios.post(`${apiUrl}/member/jwtChk`, {}, { withCredentials: true })
             .then((response) => {
-                navigate('/restaurant');
+                // 토큰이 유효한 경우
+                console.log(response.data);  // 인증 성공 메시지
+
+                // /restaurant로 이동하면서 place 데이터를 상태로 넘깁니다
+                const requestData = {
+                    ...place,
+                    resId: place.id,
+                    resultMenuId: resultMenuId
+                };
+
+                // restaurant saveInfo API 요청
+                axios.post(`${apiUrl}/restaurant/saveInfo`, requestData)
+                    .then((response) => {
+                        // 성공적으로 저장 후 restaurant 페이지로 이동
+                        navigate('/restaurant', { state: { place, resultMenuId } });
+                    })
+                    .catch((error) => {
+                        console.error('POST 요청 중 오류 발생:', error);
+                    });
+
             })
             .catch((error) => {
-                console.error('POST 요청 중 오류 발생:', error);
+                // 인증 실패시, 로그인 페이지로 이동하고 오류 메시지를 알림
+                console.error('로그인 필요:', error.response?.data || error.message);
+                alert('로그인이 필요한 서비스입니다.');
+                navigate('/login');  // 로그인 페이지로 리다이렉트
             });
     };
 
@@ -133,7 +152,7 @@ const KakaoMap = ({ places, center }) => {
 
 
     return (
-        <div style={{display: "flex", width: "100%", height: "100vh", flexDirection: "column", overflow: "hidden"}}>
+        <div style={{display: "flex", width: "100%", height: "calc(100vh - 85px)", flexDirection: "column", overflow: "hidden"}}>
             {/* 지도 */}
             <div ref={mapRef} style={{
                 flex: 1,
@@ -149,7 +168,7 @@ const KakaoMap = ({ places, center }) => {
                 onClick={() => setShowList(prev => !prev)}
                 style={{
                     position: 'absolute',
-                    top: '80px',
+                    top: '130px',
                     left: '20px',
                     zIndex: 10,
                     padding: "10px 20px",
@@ -217,7 +236,7 @@ const KakaoMap = ({ places, center }) => {
             {showList && (
                 <div style={{
                     position: "absolute",
-                    top: '80px',
+                    top: '130px',
                     left: '70px',
                     width: '300px',
                     height: 'calc(100vh - 72px - 80px)', // 헤더 및 버튼 제외
