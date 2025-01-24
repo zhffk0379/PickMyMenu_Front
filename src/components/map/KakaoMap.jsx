@@ -21,7 +21,6 @@ const KakaoMap = ({ places, center }) => {
         const lon = center.longitude;
         axios.get(`${pythonUrl}/search`, {params: {text: keyword, lat, lon}})
             .then((response) => {
-
                 setPromptResponse(response.data); // 받은 데이터를 상태에 저장
             })
             .catch((error) => {

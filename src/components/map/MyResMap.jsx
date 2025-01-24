@@ -102,13 +102,12 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
     // 리스트에서 리뷰 등록하기 클릭시 리뷰 모달 열기
     const ReviewModalOpen = () => {
         setIsModalOpen(false);
-        setIsImageUploadModalOpen(true)
-        // setIsReviewModalOpen(true);
+        setIsReviewModalOpen(true);
     }
 
     // 리뷰쓰기 버튼 클릭 함수
     const handleApiCall = (resData) => {
-        // setIsReviewModalOpen(true);
+        setIsReviewModalOpen(true);
         setPlaceName(resData.place_name)
         setId(resData.id)
         setMenu(resData.menu)
@@ -180,7 +179,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                     },
                 }
             );
-            console.log(response)
+
             // 성공 시 처리
             if (response.status === 200) {
                 alert("리뷰가 등록되었습니다!");
