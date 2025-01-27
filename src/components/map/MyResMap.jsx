@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {AnimatePresence, motion} from "framer-motion";
 import {Modal, Button, Form, Rating, Container, Spinner} from 'react-bootstrap';
-import { FaStar } from 'react-icons/fa'; // 별 아이콘
+import {FaStar} from 'react-icons/fa'; // 별 아이콘
 import './MyResMap.css'
 import axios from "axios";
 
-
-const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수정
+const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
     const mapRef = useRef(null);
     const [selectedPlaceUrl, setSelectedPlaceUrl] = useState(null);
     const [placeName, setPlaceName] = useState(null);
@@ -46,7 +45,8 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                 const latitude = restaurant.y;
                                 const longitude = restaurant.x;
 
-                                const markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
+                                const markerPosition = new window.kakao.maps.LatLng(
+                                    latitude, longitude);
                                 const marker = new window.kakao.maps.Marker({
                                     position: markerPosition,
                                     map: map,
@@ -64,31 +64,39 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                     </div>
                                 `;
 
-                                const customOverlay = new window.kakao.maps.CustomOverlay({
-                                    position: markerPosition,
-                                    content,
-                                    xAnchor: -0.5,
-                                    yAnchor: -1.3,
-                                    map: map
-                                });
+                                const customOverlay = new window.kakao.maps.CustomOverlay(
+                                    {
+                                        position: markerPosition,
+                                        content,
+                                        xAnchor: -0.5,
+                                        yAnchor: -1.3,
+                                        map: map
+                                    });
 
                                 // 마커 클릭 시 정보창 표시
-                                window.kakao.maps.event.addListener(marker, "click", () => {
-                                    if (restaurant.place_url.startsWith("http://")) {
-                                        restaurant.place_url = restaurant.place_url.replace("http://", "https://");
-                                        restaurant.place_url = restaurant.place_url.replace(".com/", ".com/m/");
-                                    }
-                                    setIsModalOpen(true);
-                                    customOverlay.setMap(map);
-                                    setSelectedPlaceUrl(restaurant.place_url);
-                                    setPlaceName(restaurant.place_name);
-                                    setMenu(restaurant.menu);
-                                    setPhone(restaurant.phone)
-                                    setAddress(restaurant.address_name)
-                                    setRoadAddress(restaurant.road_address_name)
-                                    setId(restaurant.id)
-                                    setResultMenuId(restaurant.result_menu_id)
-                                });
+                                window.kakao.maps.event.addListener(marker,
+                                    "click", () => {
+                                        if (restaurant.place_url.startsWith(
+                                            "http://")) {
+                                            restaurant.place_url = restaurant.place_url.replace(
+                                                "http://", "https://");
+                                            restaurant.place_url = restaurant.place_url.replace(
+                                                ".com/", ".com/m/");
+                                        }
+                                        setIsModalOpen(true);
+                                        customOverlay.setMap(map);
+                                        setSelectedPlaceUrl(
+                                            restaurant.place_url);
+                                        setPlaceName(restaurant.place_name);
+                                        setMenu(restaurant.menu);
+                                        setPhone(restaurant.phone)
+                                        setAddress(restaurant.address_name)
+                                        setRoadAddress(
+                                            restaurant.road_address_name)
+                                        setId(restaurant.id)
+                                        setResultMenuId(
+                                            restaurant.result_menu_id)
+                                    });
                             }
                         });
                     }
@@ -107,6 +115,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
 
     // 리뷰쓰기 버튼 클릭 함수
     const handleApiCall = (resData) => {
+        setIsReviewModalOpen(true);
         setPlaceName(resData.place_name)
         setId(resData.id)
         setMenu(resData.menu)
@@ -117,7 +126,6 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
 
         setIsImageUploadModalOpen(true)
     };
-
 
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
@@ -131,11 +139,12 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                 formData.append("address", address);
                 formData.append("roadAddress", roadAddress);
 
-                const response = await axios.post(`${pythonUrl}/image`, formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
+                const response = await axios.post(`${pythonUrl}/image`,
+                    formData, {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    });
 
                 // 서버 응답 처리
                 if (response.data === true) {
@@ -144,7 +153,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                     setIsReviewModalOpen(true);  // 리뷰 모달 열기
                 } else {
                     alert("업체명 혹은 주소가 일치하지 않습니다. 다시 시도해주세요.");
-                    setIsImageUploadModalOpen(false);
+                    setIsImageUploadModalOpen(false);  // 이미지 업로드 모달 재오픈
                 }
             } catch (error) {
                 console.error("이미지 업로드 실패:", error);
@@ -155,7 +164,7 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
     };
 
     // 리뷰등록 함수
-    const handleReviewSubmit = async ()=>{
+    const handleReviewSubmit = async () => {
         const content = document.getElementById("reviewText").value;
         const ratingCount = rating;
         const idx = id;
@@ -169,7 +178,8 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
         };
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/review/create`,// 실제 API 주소로 변경
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/review/create`,// 실제 API 주소로 변경
                 data,
                 {
                     withCredentials: true, // 쿠키를 포함시킴
@@ -192,16 +202,15 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
         }
     };
 
-
     const renderSpinner = (message) => (
-        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <Container className="d-flex justify-content-center align-items-center"
+                   style={{height: '100vh'}}>
             <div className="text-center">
-                <Spinner animation="border" variant="primary" role="status" />
+                <Spinner animation="border" variant="primary" role="status"/>
                 <div className="mt-3">{message}</div>
             </div>
         </Container>
     );
-
 
     return (
         <div className="map-container">
@@ -241,14 +250,16 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                 </div>
                                 <div>
                                     <div className="restaurant-details">
-                                        {resData.place_name} · <span className="restaurant-menu">{resData.menu}</span>
+                                        {resData.place_name} · <span
+                                        className="restaurant-menu">{resData.menu}</span>
                                     </div>
-                                    <div className="restaurant-address">{resData.address_name}</div>
-                                    <div className="restaurant-date">방문 날짜 : {resData.createdDate}</div>
+                                    <div
+                                        className="restaurant-address">{resData.address_name}</div>
                                     <div style={{marginTop: '5px'}}>
                                         {resData.isReviewed == 0 ? (
                                             <button
-                                                onClick={() => handleApiCall(resData)}
+                                                onClick={() => handleApiCall(
+                                                    resData)}
                                                 className="review-button active"
                                             >
                                                 리뷰 작성하기
@@ -325,10 +336,10 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
             <AnimatePresence>
                 {isImageUploadModalOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 50 }}
-                        transition={{ type: "spring", stiffness: 100 }}
+                        initial={{opacity: 0, y: 50}}
+                        animate={{opacity: 1, y: 0}}
+                        exit={{opacity: 0, y: 50}}
+                        transition={{type: "spring", stiffness: 100}}
                         className="motion-div"
                     >
                         <div
@@ -355,7 +366,8 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                     textAlign: "center",
                                 }}
                             >
-                                리뷰를 작성 전에 업체명이나 주소를 확인할 수 있는 영수증 <br/> 또는 업체명이 보이는 간판 사진을 업로드해 주세요.
+                                리뷰를 작성 전에 업체명이나 주소를 확인할 수 있는 영수증 <br/> 또는 업체명이
+                                보이는 간판 사진을 업로드해 주세요.
                             </label>
 
                             {/* 이미지 업로드 input */}
@@ -377,13 +389,17 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
 
                             {/* 서버 응답 대기 중일 때 Spinner */}
                             {isImageUploading && (
-                                <div style={{marginTop: "20px", textAlign: "center"}}>
+                                <div style={{
+                                    marginTop: "20px",
+                                    textAlign: "center"
+                                }}>
                                     {renderSpinner("확인 중...")}
                                 </div>
                             )}
 
                             <button
-                                onClick={() => setIsImageUploadModalOpen(false)} // 모달 닫기
+                                onClick={() => setIsImageUploadModalOpen(
+                                    false)} // 모달 닫기
                                 style={{
                                     padding: "10px 20px",
                                     backgroundColor: "#f44336",
@@ -437,10 +453,12 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                 <div className="restaurant-info">
                                     <div>
                                         <h5 className="restaurant-name">
-                                            식당 이름 : <span className="place-name-value">{placeName}</span>
+                                            식당 이름 : <span
+                                            className="place-name-value">{placeName}</span>
                                         </h5>
                                         <h6 className="menu-name">
-                                            메뉴 : <span className="menu-value">{menu}</span>
+                                            메뉴 : <span
+                                            className="menu-value">{menu}</span>
                                         </h6>
                                     </div>
                                 </div>
@@ -448,7 +466,8 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                 {/* 리뷰 내용 */}
                                 <div>
                                     <Form.Group controlId="reviewText">
-                                        <Form.Label className="review-label">내용</Form.Label>
+                                        <Form.Label
+                                            className="review-label">내용</Form.Label>
                                         <Form.Control
                                             as="textarea"
                                             rows={5}
@@ -461,14 +480,19 @@ const MyResMap = ({ restaurantData }) => {  // props를 제대로 받도록 수�
                                 {/* 별점 */}
                                 <div className="review-rating-container">
                                     <Form.Group controlId="reviewRating">
-                                        <Form.Label className="review-rating-label">별점</Form.Label>
+                                        <Form.Label
+                                            className="review-rating-label">별점</Form.Label>
                                         <div className="star-rating">
                                             {[...Array(5)].map((_, index) => (
                                                 <FaStar
                                                     key={index}
-                                                    color={index < rating ? "gold" : "gray"} // 별색 지정
+                                                    color={index < rating
+                                                        ? "gold"
+                                                        : "gray"} // 별색 지정
                                                     size={30}
-                                                    onClick={() => setRating(index + 1)} // 별 클릭 시 별점 설정
+                                                    onClick={() => setRating(
+                                                        index
+                                                        + 1)} // 별 클릭 시 별점 설정
                                                     className="star-icon"
                                                 />
                                             ))}
