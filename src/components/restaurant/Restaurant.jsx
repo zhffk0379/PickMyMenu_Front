@@ -104,11 +104,21 @@ const Restaurant = () => {
                     });
                     markers.current.push(arriveMarker); // 도착 마커 배열에 추가
 
+                    window.kakao.maps.event.addListener(arriveMarker, 'click', () => {
+                        openKakaoMapRoute()
+                    });
+
+                    function openKakaoMapRoute() {
+                        const url = `https://m.map.kakao.com/actions/routeView?ex=484093&ey=1107380&endLoc=${place.place_name}&ids=%2CP${place.id}`;
+                        window.open(url, '_blank');
+                    }
+                    window.openKakaoMapRoute = openKakaoMapRoute;
+
                     const arriveContent = `
                         <div style="position: relative; bottom: 35px; left: -50%; transform: translateX(-50%);
                                     background: white; border: 1px solid #ccc; border-radius: 10px;
                                     padding: 5px 10px; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
-                                    font-size: 12px; white-space: nowrap; text-align: center;">
+                                    font-size: 12px; white-space: nowrap; text-align: center;" onclick="openKakaoMapRoute()">
                             ${place.place_name}
                         </div>
                     `;
@@ -134,16 +144,16 @@ const Restaurant = () => {
 
     return (
         <div>
-            <div id="map" ref={mapRef} style={{width: '100%', height: 'calc(100vh - 85px)'}}></div>
+            <div id="map" ref={mapRef} style={{width: '100%', height: 'calc(100vh - 220px)'}}></div>
 
             <div
                 style={{
-                    display: 'block',        // 블록 레벨 요소로 만들어서 가로 전체 차지
-                    margin: '0 auto',        // 좌우 가운데 정렬
-                    textAlign: 'center',    // 버튼 안쪽 여백
-                    fontSize: '14px',        // 글씨 크기
-                    color: 'black',          // 버튼 글씨 색
-                    marginTop: '10px'
+                    display: 'block',
+                    margin: '0 auto',
+                    textAlign: 'center',
+                    fontSize: '14px',
+                    color: 'black',
+                    marginTop: '20px'
                 }}
             >
                 식사는 맛있게 하셨나요? 식당이 마음에 드셨다면

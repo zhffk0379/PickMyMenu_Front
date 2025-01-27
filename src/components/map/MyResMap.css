@@ -110,6 +110,10 @@
     color: #555;
 }
 
+.restaurant-date {
+    font-size: 0.9em;
+}
+
 .review-button {
     padding: 4px 5px;
     border: none;
