@@ -12,7 +12,7 @@ const Review = () => {
 
   useEffect(() => {
     // API 요청
-        getReviewList(currentPage - 1, reviewsPerPage).then(res => {
+    getReviewList(currentPage - 1, reviewsPerPage).then(res => {
           const { content, totalPages, totalElements } = res.data; // content와 totalElements 추출
           setReviews(content); // 현재 페이지 리뷰
           setTotalReviews(totalElements); // 총 리뷰 개수 설정
