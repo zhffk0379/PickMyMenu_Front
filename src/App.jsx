@@ -15,6 +15,7 @@ import RestaurantInfo from "./components/restaurant/RestaurantInfo";
 import Review from "./components/review/Review";
 import MyRestaurantInfo from "./components/member/MyRestaurantInfo";
 import MyInfo from "./components/member/MyInfo";
+import MyReview from "./components/review/MyReview";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/restaurant" element={<Restaurant />} />
             <Route path="/review" element={<Review />} />
+            <Route path="/myReview" element={<MyReview />} />
           </Routes>
         </Layout>
       </Router>

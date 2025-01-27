@@ -206,6 +206,12 @@
     color: white;
 }
 
+.modal-button-review.disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -251,12 +257,11 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 100%;
 }
 
 .restaurant-info {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     display: flex; /* 좌우 배치 */
     justify-content: space-between;
 }
@@ -298,7 +303,7 @@
 }
 
 .review-rating-container {
-    margin-bottom: 100px;
+    margin-bottom: 30px;
 }
 
 .review-rating-label {
@@ -308,13 +313,23 @@
 }
 
 .star-rating {
-    display: flex;
+    /*display: flex;*/
 }
 
 .star-icon {
     cursor: pointer;
     transition: color 0.2s ease; /* 클릭 시 색상 부드럽게 변경 */
     margin-right: 5px;
+}
+
+.image-upload-container {
+    margin-bottom: 30px;
+}
+
+.image-upload-label {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
 }
 
 .button-container {

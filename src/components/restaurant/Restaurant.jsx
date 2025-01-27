@@ -130,7 +130,6 @@ const Restaurant = () => {
                         map: mapInstance.current
                     });
 
-                    // 마커와 커스텀 오버레이 추가 완료
                 });
             };
         }
