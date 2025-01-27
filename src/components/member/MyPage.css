@@ -33,3 +33,33 @@
 .mypage-tab:focus {
     outline: none;
 }
+
+.mypage-tab {
+    position: relative; /* 뱃지 배치를 위한 기준 */
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+.mypage-tab.active-tab {
+    font-weight: bold;
+    color: #000;
+}
+
+.badge {
+    position: absolute;
+    top: -6px;
+    right: -10px; /* 탭 오른쪽 상단에 위치 */
+    background-color: red; /* 빨간 배경 */
+    color: white; /* 흰 글씨 */
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%; /* 동그란 모양 */
+    padding: 5px 8px; /* 크기 조정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 20px; /* 최소 크기 지정 */
+    height: 20px; /* 높이 지정 */
+}
+
