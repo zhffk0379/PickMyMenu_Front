@@ -137,7 +137,7 @@ const Restaurant = () => {
 
 
     const handleNavigate = () => {
-        navigate('/restaurantInfo');  // '/review' 페이지로 이동
+        navigate('/myRestaurantInfo');  // '/review' 페이지로 이동
     };
 
 

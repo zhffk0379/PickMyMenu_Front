@@ -25,9 +25,9 @@ const Header = () => {
   const isLogin = (e) => {
     if(!isAuthenticated){
       e.preventDefault();
-      const process = window.confirm("로그인이 필요한 서비스입니다. 회원가입 페이지로 이동하시겠습니까?");
+      const process = window.confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?");
       if (process) {
-        navigate("/join");
+        navigate("/login");
       }
     }
   }

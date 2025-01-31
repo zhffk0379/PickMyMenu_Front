@@ -58,19 +58,3 @@ const RestaurantInfo = () => {
 };
 
 export default RestaurantInfo;
-// <Col key={index} xs={12} sm={6} md={4} lg={3}>
-//     <a href={item.link} target="_blank" rel="noopener noreferrer" className="card-link">
-//         <Card className="custom-card">
-//             {/* 이미지 없이 텍스트만 */}
-//             <Card.Body>
-//                 <Card.Title className="card-title">{item.title}</Card.Title>
-//                 <Card.Text className="card-text">
-//                     {item.description.length > 100
-//                         ? `${item.description.slice(0, 100)}...`
-//                         : item.description}
-//                 </Card.Text>
-//                 <div className="text-muted small">{item.postdate}</div>
-//             </Card.Body>
-//         </Card>
-//     </a>
-// </Col>

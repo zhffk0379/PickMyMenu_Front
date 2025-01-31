@@ -22,9 +22,9 @@ const HomePage = () => {
   }, []);
   const isLoginByRank = () => {
     if (!isAuthenticated) {
-      const proceed = window.confirm("로그인이 필요한 서비스입니다. 회원가입 페이지로 이동하시겠습니까?");
+      const proceed = window.confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?");
       if (proceed) {
-        navigate("/join");
+        navigate("/login");
       }
     }else{
       navigate("/ranking");
@@ -34,9 +34,9 @@ const HomePage = () => {
   const isLogin = (e) => {
     if (!isAuthenticated) {
       e.preventDefault();
-      const proceed = window.confirm("로그인이 필요한 서비스입니다. 회원가입 페이지로 이동하시겠습니까?");
+      const proceed = window.confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?");
       if (proceed) {
-        navigate("/join");
+        navigate("/login");
       }
     }
   };
@@ -51,7 +51,7 @@ const HomePage = () => {
           </Link>
         </Col>
         <Col xs={6} className="mb-3">
-          <Link to="/parent" className="recommendation-link">
+          <Link to="/todayPick" className="recommendation-link" onClick={isLogin}>
             오늘의 추천
           </Link>
         </Col>
