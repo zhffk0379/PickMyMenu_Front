@@ -16,6 +16,7 @@ import Review from "./components/review/Review";
 import MyRestaurantInfo from "./components/member/MyRestaurantInfo";
 import MyInfo from "./components/member/MyInfo";
 import MyReview from "./components/review/MyReview";
+import TodayPickPage from "./routes/TodayPickPage";
 
 function App() {
   return (
@@ -39,9 +40,11 @@ function App() {
             <Route path="/restaurant" element={<Restaurant />} />
             <Route path="/review" element={<Review />} />
             <Route path="/myReview" element={<MyReview />} />
+            <Route path="/todayPick" element={<TodayPickPage />} />
           </Routes>
         </Layout>
       </Router>
+      <ToastContainer /> {/* ToastContainer 추가 */}
     </AuthProvider>
   );
 }

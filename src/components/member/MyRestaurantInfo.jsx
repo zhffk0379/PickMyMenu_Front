@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import MyResMap from "../map/MyResMap";
+import { Container, Spinner } from 'react-bootstrap';
 
 function MyRestaurantInfo() {
     const [restaurantData, setRestaurantData] = useState(null); // 식당 데이터 상태
@@ -30,14 +31,23 @@ function MyRestaurantInfo() {
         fetchRestaurantData();
     }, []);
 
-    if (loading) return <p>로딩 중...</p>;
+    const renderSpinner = (message) => (
+        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+            <div className="text-center">
+                <Spinner animation="border" variant="primary" role="status" />
+                <div className="mt-3">{message}</div>
+            </div>
+        </Container>
+    );
+
+    if (loading) return renderSpinner("로딩 중...");  // Spinner 컴포넌트 표시
     if (error) return <p>에러: {error}</p>;
 
-  return (
-      <div>
-          <MyResMap restaurantData={restaurantData} />
-      </div>
-  );
+    return (
+        <div>
+            <MyResMap restaurantData={restaurantData} />
+        </div>
+    );
 }
 
 export default MyRestaurantInfo;
