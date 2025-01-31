@@ -1,12 +1,17 @@
 import {Button, Col, Container, Row} from "react-bootstrap"
 import RankTable from "../components/ranking/RankTable";
 import {useEffect, useState} from "react";
-import {getRankMenu, getRankSurvey} from "../services/rank/rankService";
+import {
+  getRankMenu,
+  getRankRestaurant,
+  getRankSurvey
+} from "../services/rank/rankService";
 import RankSurveyBar from "../components/ranking/RankSurveyBar";
 
 const Ranking = () => {
   const [menuRankData, setMenuRankData] = useState([]);
   const [surveyRankData, setSurveyRankData] = useState([]);
+  const [restaurantRankData, setRestaurantRankData] = useState([]);
   const [type, setType] = useState("ALL");
   const [title, setTitle] = useState("전체 순위")
 
@@ -17,6 +22,9 @@ const Ranking = () => {
     getRankSurvey({type: type}).then((data) => {
       setSurveyRankData(data.data);
     });
+    getRankRestaurant({type: type, menuName: "닭갈비"}).then((data) => {
+      setRestaurantRankData(data.data)
+    })
   }, []);
 
   useEffect(() => {
@@ -49,7 +57,7 @@ const Ranking = () => {
     <Container className="mt-5">
       <Row>
         <Col md={6}>
-          <RankTable title={title} data={menuRankData}
+          <RankTable title={title} type={type} data={menuRankData}
                      callback={typeChange}/>
         </Col>
         <Col md={6}>

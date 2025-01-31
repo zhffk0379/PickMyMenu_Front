@@ -1,13 +1,25 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, Col, Row, Table} from "react-bootstrap";
-import RankingRow from "./RankingRow";
+import {getRankRestaurant} from "../../services/rank/rankService";
 
-const RankTable = ({title, data, callback}) => {
+const RankTable = ({title, type, data, callback}) => {
     const [rankData, setRankData] = useState([]);
+    const [restaurantRankData, setRestaurantRankData] = useState([]);
 
     useEffect(() => {
         setRankData(data);
     }, [data]);
+
+
+    const getRestaurantInfo = (menuName) => {
+        console.log(menuName);
+        console.log(type);
+
+        getRankRestaurant({type: type, menuName: menuName}).then((data) => {
+            setRestaurantRankData(data.data)
+        })
+        console.log(restaurantRankData)
+    }
 
     return (
         <Col xs={12} md={6} lg={12} className="mb-4">
@@ -32,12 +44,11 @@ const RankTable = ({title, data, callback}) => {
                         <tbody>
                         {rankData.length > 0 ? (
                             rankData.map((item, index) => (
-                                <RankingRow
-                                    key={index}
-                                    rank={index + 1}
-                                    name={item.menu}
-                                    selectedCount={item.menuCount}
-                                />
+                                <tr key={index} onClick={() => getRestaurantInfo(item.menu)}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.menu}</td>
+                                    <td>{item.menuCount}</td>
+                                </tr>
                             ))
                         ) : (
                             <tr>
