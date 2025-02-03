@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const KakaoMap = ({ places, center }) => {
@@ -142,7 +143,7 @@ const KakaoMap = ({ places, center }) => {
         // 다른 페이지로 상태 전달
         if (!promptResponse) {
             // 응답이 아직 도착하지 않은 경우
-            alert('맛집 정보를 검색중입니다. 잠시만 기다려주세요.');
+            toast.info("AI가 데이터를 수집중입니다. 잠시 후에 다시 시도해주세요.");
             return;
         }
 

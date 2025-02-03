@@ -6,29 +6,32 @@ import axios from "axios";
 function SurveyResult() {
   const location = useLocation();
   const navigate = useNavigate();
-  const {selection, pushData} = location.state || {};
+  const { selection, pushData, todayPick } = location.state || {};
   const [foodRecommendations, setFoodRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    console.log(selection);
-    const select = selection.join(", ");
+    if (todayPick && todayPick.length > 0) {  // todayPick이 존재하면
+      setFoodRecommendations(todayPick);  // 바로 foodRecommendations에 설정
+    } else if (selection && selection.length > 0) {  // todayPick이 없고 selection이 있으면
+      const select = selection.join(", ");
+      setLoading(true);
 
-    setLoading(true);
-
-    axios.get(`${apiUrl}/gemini/question`, {params: {select: select}})
-    .then((response) => {
-      const foodNames = parseFoodRecommendations(response.data);
-      setFoodRecommendations(foodNames);
-    })
-    .catch((error) => {
-      console.error('API 호출 오류', error);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-  }, [selection]);
+      axios
+          .get(`${apiUrl}/gemini/question`, { params: { select: select } })
+          .then((response) => {
+            const foodNames = parseFoodRecommendations(response.data);
+            setFoodRecommendations(foodNames);  // API 응답값을 설정
+          })
+          .catch((error) => {
+            console.error('API 호출 오류', error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+    }
+  }, [selection, todayPick]);  // selection이나 todayPick이 변경될 때마다 실행
 
   const parseFoodRecommendations = (text) => {
     const regex = /\d+\.\s*([^\(\n]+)/g;

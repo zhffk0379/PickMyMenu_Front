@@ -42,8 +42,8 @@ const PostList = ({ reviews }) => {
                                 borderRadius: "10px",
                                 cursor: "pointer",
                             }}
-                            src={`http://hhjnn92.synology.me/Project/PickMyMenu/Review/${review.reviewImageUrl}`}
-                            onClick={() => openImageInNewWindow(`http://hhjnn92.synology.me/Project/PickMyMenu/Review/${review.reviewImageUrl}`)}
+                            src={`https://hhjnn92.synology.me/Project/PickMyMenu/Review/${review.reviewImageUrl}`}
+                            onClick={() => openImageInNewWindow(`https://hhjnn92.synology.me/Project/PickMyMenu/Review/${review.reviewImageUrl}`)}
                         />
                     )}
                     {/* 리뷰 내용 */}
