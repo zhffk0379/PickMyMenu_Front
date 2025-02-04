@@ -1,65 +1,132 @@
+/* MyPage.css */
+
+/* 탭 메뉴 스타일 */
 .mypage-tabs {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 30px;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-bottom: 2px solid #ddd;
 }
 
 .mypage-tab {
-    background-color: #f0f0f0;
-    color: #333;
-    padding: 12px 20px;
-    margin: 0 10px;
-    font-size: 16px;
-    text-align: center;
     text-decoration: none;
-    border-radius: 30px;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    color: #555;
+    padding: 10px;
+    font-weight: bold;
 }
 
 .mypage-tab:hover {
-    background-color: #4CAF50;
-    color: white;
-    transform: scale(1.05);
+    color: #007bff;
 }
 
 .active-tab {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    transform: scale(1.05);
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
 }
 
-.mypage-tab:focus {
-    outline: none;
-}
-
-.mypage-tab {
-    position: relative; /* 뱃지 배치를 위한 기준 */
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #333;
-}
-
-.mypage-tab.active-tab {
-    font-weight: bold;
-    color: #000;
-}
-
+/* 배지 스타일 */
 .badge {
-    position: absolute;
-    top: -6px;
-    right: -10px; /* 탭 오른쪽 상단에 위치 */
-    background-color: red; /* 빨간 배경 */
-    color: white; /* 흰 글씨 */
+    background-color: #ff5722;
+    color: white;
+    border-radius: 12px;
+    padding: 0 8px;
+    margin-left: 5px;
     font-size: 12px;
-    font-weight: bold;
-    border-radius: 50%; /* 동그란 모양 */
-    padding: 5px 8px; /* 크기 조정 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 20px; /* 최소 크기 지정 */
-    height: 20px; /* 높이 지정 */
 }
 
+/* 설문 기록 컨테이너 */
+.history-container {
+    margin-top: 20px;
+}
+
+.history-scroll {
+    display: flex;
+    overflow-x: scroll;
+    padding: 10px 0;
+}
+
+.history-item {
+    min-width: 300px;
+    margin-right: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.history-menu {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.history-date,
+.history-restaurant {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.survey-results {
+    margin-top: 10px;
+}
+
+.survey-summary {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.survey-result {
+    padding: 5px 0;
+}
+
+.survey-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+}
+
+/* 선택된 항목 스타일 */
+.selected-item {
+    display: flex;
+    align-items: center;
+    background-color: #c8e6c9; /* 연한 초록색 배경 */
+    padding: 5px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    color: #388e3c; /* 초록색 텍스트 */
+}
+
+.selected-item .icon-check {
+    margin-right: 10px;
+    color: #388e3c;
+    font-size: 18px;
+}
+
+/* 선택되지 않은 항목 스타일 */
+.not-selected-item {
+    display: flex;
+    align-items: center;
+    background-color: #fce4ec; /* 연한 핑크색 배경 */
+    padding: 5px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    color: #d32f2f; /* 빨간색 텍스트 */
+}
+
+.not-selected-item .icon-times {
+    margin-right: 10px;
+    color: #d32f2f;
+    font-size: 18px;
+}
+
+/* "설문 기록이 없습니다" 메시지 스타일 */
+.no-record {
+    font-size: 1.1em;
+    color: #555;
+    text-align: center;
+    margin-top: 20px;
+}
