@@ -360,3 +360,17 @@
     background-color: #4CAF50;
     color: white;
 }
+
+
+
+.notification {
+    position: absolute;
+    top: 125px;
+    left: 62px;
+    z-index: 10;
+    background-color: red;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    border: 1px solid white;
+}

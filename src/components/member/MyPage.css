@@ -13,6 +13,8 @@
     color: #555;
     padding: 10px;
     font-weight: bold;
+    position: relative; /* 링크의 부모 요소에 상대 위치 설정 */
+    display: inline-block;
 }
 
 .mypage-tab:hover {
@@ -24,14 +26,14 @@
     border-bottom: 2px solid #007bff;
 }
 
-/* 배지 스타일 */
-.badge {
-    background-color: #ff5722;
-    color: white;
-    border-radius: 12px;
-    padding: 0 8px;
-    margin-left: 5px;
-    font-size: 12px;
+.notification-dot {
+    position: absolute;
+    top: 4px;
+    right: -6px;
+    width: 9px;
+    height: 9px;
+    background-color: red;
+    border-radius: 50%;
 }
 
 /* 설문 기록 컨테이너 */
