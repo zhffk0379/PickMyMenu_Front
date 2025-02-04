@@ -10,11 +10,12 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, setReviewCount } = useAuth();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/member/login`, {
+    const response = await axios.post(`${apiUrl}/member/login`, {
       email,
       password,
     }, {
@@ -25,6 +26,21 @@ function Login() {
       const { token, name } = response.data.data;
 
       document.cookie = `token=${token}; max-age=${7 * 24 * 60 * 60}; path=/`;
+
+      // 로그인 후 리뷰 카운트 가져오기
+      axios.get(`${apiUrl}/review/count`, {
+        withCredentials: true
+      })
+          .then((response) => {
+            if (response.status === 200) {
+              const reviewCount = response.data.data;
+              setReviewCount(reviewCount); // 상태에 저장
+              localStorage.setItem('reviewCount', reviewCount); // localStorage에 저장
+            }
+          })
+          .catch((error) => {
+            console.error("리뷰 카운트를 가져오는 중 오류 발생:", error);
+          });
 
       alert(`${name}님, PickMyMenu에 오신 것을 환영합니다!`);
       login();

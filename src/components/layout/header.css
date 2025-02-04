@@ -77,3 +77,20 @@ nav ul li a:hover {
     font-size: 0.9rem;
   }
 }
+
+.headerBadge {
+  position: absolute;
+  top: 2px;
+  right: -10px;
+  background-color: #ff5722;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 12px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 20px; /* 최소 크기 지정 */
+  height: 20px; /* 높이 지정 */
+}

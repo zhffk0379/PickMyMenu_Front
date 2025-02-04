@@ -42,8 +42,9 @@ const MyPageTabs = () => {
                     className={`mypage-tab ${location.pathname === "/myRestaurantInfo" ? "active-tab" : ""}`}
                 >
                     방문했던 식당
-                    {reviewCount > 0 && <span className="badge">{reviewCount}</span>}
+                    {reviewCount > 0 && <span className="notification-dot"></span>}
                 </Link>
+
                 <Link
                     to="/myReview"
                     className={`mypage-tab ${location.pathname === "/myReview" ? "active-tab" : ""}`}

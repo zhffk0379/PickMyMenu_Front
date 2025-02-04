@@ -12,6 +12,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [reviewCount, setReviewCount] = useState(0); // 리뷰 카운트 상태 추가
 
     // 로그인 상태 설정 함수
     const login = () => {
@@ -84,7 +85,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, handleLogout, handleDeleteAccount }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, handleLogout, handleDeleteAccount, reviewCount, setReviewCount }}>
             {children}
         </AuthContext.Provider>
     );

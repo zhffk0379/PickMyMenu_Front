@@ -4,6 +4,7 @@ import {Form, Container, Spinner} from 'react-bootstrap';
 import { FaStar } from 'react-icons/fa'; // 별 아이콘
 import './MyResMap.css'
 import axios from "axios";
+import {useAuth} from "../../contexts/AuthContext";
 
 const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
     const mapRef = useRef(null);
@@ -22,9 +23,12 @@ const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
     const [showList, setShowList] = useState(false);
     const [rating, setRating] = useState(5); // 별점 상태
     const [isImageUploading, setIsImageUploading] = useState(false);  // 이미지 업로드 상태
+    const apiUrl = process.env.REACT_APP_API_URL;
     const pythonUrl = process.env.REACT_APP_PYTHON_API_URL;
     const [selectedImage, setSelectedImage] = useState(null); // 이미지 상태 관리
     const [imagePreview, setImagePreview] = useState(null); // 미리보기 URL 관리
+    const { reviewCount, setReviewCount } = useAuth();
+
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -190,6 +194,21 @@ const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
             // 성공 시 처리
             if (response.data.success === true) {
                 alert("리뷰가 등록되었습니다!");
+
+                axios.get(`${apiUrl}/review/count`, {
+                    withCredentials: true
+                })
+                    .then((response) => {
+                        if (response.status === 200) {
+                            const reviewCount = response.data.data;
+                            setReviewCount(reviewCount); // 상태에 저장
+                            localStorage.setItem('reviewCount', reviewCount); // localStorage에 저장
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("리뷰 카운트를 가져오는 중 오류 발생:", error);
+                    });
+
                 setIsReviewModalOpen(false); // 모달 닫기
             } else {
                 alert(response.data.message);
@@ -208,6 +227,7 @@ const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
             setImagePreview(URL.createObjectURL(file)); // 미리보기 URL 생성
         }
     };
+
 
     const renderSpinner = (message) => (
         <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
@@ -231,6 +251,8 @@ const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
             >
                 {showList ? '=' : '='}
             </button>
+            {reviewCount > 0 && <span className="notification"></span>}
+
 
 
             {showList && (
