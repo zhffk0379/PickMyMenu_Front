@@ -181,7 +181,7 @@ const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
         }
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/review/create`,// 실제 API 주소로 변경
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/review/create`,
                 formData,
                 {
                     withCredentials: true, // 쿠키를 포함시킴

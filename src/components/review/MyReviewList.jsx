@@ -1,6 +1,8 @@
 import React from "react";
 import { Card, Container } from "react-bootstrap";
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import axios from "axios";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 // 별점 표시 컴포넌트
 const StarRating = ({ rating }) => {
@@ -17,6 +19,64 @@ const StarRating = ({ rating }) => {
 function openImageInNewWindow(imageSrc) {
     window.open(imageSrc, '_blank', 'toolbar=no,scrollbars=yes,resizable=yes,width=1000,height=800');
 }
+
+// 리뷰 숨기기
+const hideReview = async (review) => {
+    const isConfirmed = window.confirm("리뷰를 숨길까요?");
+
+    if (isConfirmed) {
+        try {
+            const response = await axios.post(`${apiUrl}/review/hide`, null, {
+                params: {
+                    resultMenuId: review.resultMenuId,
+                },
+                withCredentials: true,
+            });
+
+            console.log(response);
+
+            if (response.data.success === true) {
+                window.location.reload(); // 페이지 새로 고침
+                alert("리뷰를 숨겼습니다.");
+            }else {
+                alert(response.data.message);
+            }
+        } catch (error) {
+            console.error("리뷰 숨기기 실패:", error);
+            alert("리뷰 숨기기 실패");
+        }
+    }
+}
+
+
+// 리뷰 보이기
+const unhideReview = async (review) => {
+    const isConfirmed = window.confirm("리뷰를 다시 공개할까요?");
+
+    if (isConfirmed) {
+        try {
+            const response = await axios.post(`${apiUrl}/review/unHide`, null, {
+                params: {
+                    resultMenuId: review.resultMenuId,
+                },
+                withCredentials: true,
+            });
+
+            console.log(response);
+
+            if (response.data.success === true) {
+                window.location.reload(); // 페이지 새로 고침
+                alert("리뷰를 다시 공개했습니다.");
+            }else {
+                alert(response.data.message);
+            }
+        } catch (error) {
+            console.error("리뷰 공개 실패:", error);
+            alert("리뷰 공개 실패");
+        }
+    }
+}
+
 
 const PostList = ({ reviews }) => {
   return (
@@ -68,46 +128,23 @@ const PostList = ({ reviews }) => {
 
                       <hr/>
 
-
                       <div className="d-flex justify-content-center mt-4">
                           <button
                               style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.05)", // 연한 회색 배경
-                                  color: "#555", // 어두운 회색 글씨
-                                  border: "1px solid rgba(0, 0, 0, 0.2)", // 연한 테두리
+                                  backgroundColor: review.hiddenStatus === 0 ? "#dc3545" : "#28a745", // 빨강 or 초록
+                                  color: "#fff",
+                                  border: "none",
                                   borderRadius: "8px",
                                   padding: "6px 12px",
                                   fontSize: "14px",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "6px",
                                   cursor: "pointer",
                                   transition: "0.3s",
                               }}
-                              onMouseOver={(e) => (e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)")}
-                              onMouseOut={(e) => (e.target.style.backgroundColor = "rgba(0, 0, 0, 0.05)")}
+                              onMouseOver={(e) => (e.target.style.backgroundColor = review.hiddenStatus === 0 ? "#c82333" : "#218838")}
+                              onMouseOut={(e) => (e.target.style.backgroundColor = review.hiddenStatus === 0 ? "#dc3545" : "#28a745")}
+                              onClick={() => review.hiddenStatus === 0 ? hideReview(review) : unhideReview(review)}
                           >
-                              <FaThumbsUp size={18}/>
-                          </button>
-                          　　　
-                          <button
-                              style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.05)",
-                                  color: "#555",
-                                  border: "1px solid rgba(0, 0, 0, 0.2)",
-                                  borderRadius: "8px",
-                                  padding: "6px 12px",
-                                  fontSize: "14px",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "6px",
-                                  cursor: "pointer",
-                                  transition: "0.3s",
-                              }}
-                              onMouseOver={(e) => (e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)")}
-                              onMouseOut={(e) => (e.target.style.backgroundColor = "rgba(0, 0, 0, 0.05)")}
-                          >
-                              <FaThumbsDown size={18}/>
+                              {review.hiddenStatus === 0 ? "리뷰 숨기기" : "리뷰 보이기"}
                           </button>
                       </div>
 
