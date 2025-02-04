@@ -13,3 +13,10 @@ export const getRankSurvey = async ({type}) => {
   });
   return response.data;
 }
+
+export const getRankRestaurant = async ({type, menuName}) => {
+  const response = await axiosInstance.get("/v1/rank/restaurant", {
+    params: {type, menuName}
+  })
+  return response.data;
+}

@@ -1,0 +1,64 @@
+.restaurant-modal .modal-header {
+  background-color: #2f9710;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.restaurant-modal .modal-body {
+  background-color: #ffffff;
+  padding: 20px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.restaurant-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.restaurant-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #343740;
+}
+
+.restaurant-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.restaurant-link:hover {
+  text-decoration: underline;
+}
+
+.no-data {
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+.close-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: #c82333;
+}
