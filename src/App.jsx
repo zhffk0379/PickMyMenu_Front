@@ -17,6 +17,10 @@ import MyRestaurantInfo from "./components/member/MyRestaurantInfo";
 import MyInfo from "./components/member/MyInfo";
 import MyReview from "./components/review/MyReview";
 import TodayPickPage from "./routes/TodayPickPage";
+import AdminPage from "./page/admin/AdminPage";
+import Choices from "./page/admin/management/Choices";
+import Members from "./page/admin/management/Members";
+import Reviews from "./page/admin/management/Reviews";
 
 function App() {
   return (
@@ -41,6 +45,10 @@ function App() {
             <Route path="/review" element={<Review />} />
             <Route path="/myReview" element={<MyReview />} />
             <Route path="/todayPick" element={<TodayPickPage />} />
+            <Route path="/adminpage" element={<AdminPage />} />
+            <Route path="/admin/members" element={<Members />} />
+            <Route path="/admin/choices" element={<Choices />} />
+            <Route path="/admin/reviews" element={<Reviews />} />
           </Routes>
         </Layout>
       </Router>

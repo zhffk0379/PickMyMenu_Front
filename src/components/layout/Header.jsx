@@ -8,6 +8,7 @@ import {Navbar} from "react-bootstrap"; // axios 임포트
 const Header = () => {
   const { isAuthenticated, logout, reviewCount, setReviewCount  } = useAuth();
   let navigate = useNavigate();
+  const userRole = localStorage.getItem('role');
 
   useEffect(() => {
     // 페이지 새로 고침 시 localStorage에서 리뷰 카운트를 가져와 상태에 저장
@@ -59,7 +60,8 @@ const Header = () => {
               <>
                 {/* 로그아웃 링크를 기존 스타일과 동일하게 */}
                 <li><Link className={"fs-5"} to="/" onClick={handleLogout}>로그아웃</Link></li>
-                <li><Link className={"fs-5"} to="/mypage">마이페이지</Link></li>
+                <li><Link className={"fs-5"} to={userRole === 'ROLE_ADMIN' ? '/adminpage' : '/mypage'}>
+                  {userRole === 'ROLE_ADMIN' ? '관리자 페이지' : '마이페이지'}</Link></li>
                 {reviewCount > 0 && (
                     <span className="headerBadge">{reviewCount}</span> // 뱃지 표시
                 )}
