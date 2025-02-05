@@ -14,6 +14,7 @@ const Restaurant = () => {
     const mapInitialized = useRef(false); // 지도 초기화 상태 추적용 ref
 
     useEffect(() => {
+
         // 현재 위치를 가져오는 함수
         const getCurrentPosition = () => {
             if (navigator.geolocation) {
