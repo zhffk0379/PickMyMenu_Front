@@ -3,7 +3,9 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 export const getReviews = async () => {
     try {
-        const response = await axios.get(`${apiUrl}/admin/reviews`);
+        const response = await axios.get(`${apiUrl}/admin/reviews`, {
+            withCredentials: true
+        });
         console.log('백엔드 응답 데이터:', response.data); // 응답 확인
         return response.data.content;
     } catch (error) {

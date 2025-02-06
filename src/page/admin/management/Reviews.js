@@ -79,7 +79,6 @@ const ReviewsManagement = () => {
         return (
             <img
                 src={fullUrl}
-                alt="리뷰"
                 style={{ width: '50px', height: '50px', cursor: 'pointer' }}
                 onClick={() => openImageInNewWindow(fullUrl)}
             />
