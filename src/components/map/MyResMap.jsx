@@ -35,14 +35,17 @@ const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
         script.async = true;
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
         document.head.appendChild(script);
+        const lastRestaurant = restaurantData[restaurantData.length -1]
+
+
 
         script.onload = () => {
             if (window.kakao && window.kakao.maps) {
                 window.kakao.maps.load(() => {
                     // 서울 위치로 초기화
                     const map = new window.kakao.maps.Map(mapRef.current, {
-                        center: new window.kakao.maps.LatLng(37.5665, 126.978), // 서울 위치
-                        level: 7, // zoom level
+                        center: new window.kakao.maps.LatLng(lastRestaurant.y, lastRestaurant.x), // 서울 위치
+                        level: 5, // zoom level
                     });
 
                     if (Array.isArray(restaurantData)) {

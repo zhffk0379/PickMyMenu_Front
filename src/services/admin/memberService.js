@@ -11,3 +11,11 @@ export const getMembers = async () => {
         return [];
     }
 };
+
+// 회원 정보 수정하기
+export const updateMember = async (member) => {
+    const response = await axios.put(`${apiUrl}/member/${member.id}`, member, {
+        withCredentials: true
+    });
+    return response.data;
+};

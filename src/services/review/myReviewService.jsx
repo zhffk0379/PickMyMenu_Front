@@ -1,11 +1,12 @@
 import axiosInstance from "../../utils/axios";
 
-export const getMyReviewList = async (page, size=10, sort=undefined) => {
-  console.log(page);
-  const response = await axiosInstance.get("/review/myReview", {
-    params: {page, size, sort},
-    withCredentials: true
+export const getMyReviewList = async (page, size = 10, sort ) => {
+    console.log("sort================");
+    console.log("sort", sort);
+    const response = await axiosInstance.get("/review/myReview", {
+        params: {page: page, size:size, sort:"createdDate,desc"},
+        withCredentials: true
 
-})
-  return response.data;
+    })
+    return response.data;
 }
