@@ -6,7 +6,6 @@ export const getReviews = async () => {
         const response = await axios.get(`${apiUrl}/admin/reviews`, {
             withCredentials: true
         });
-        console.log('백엔드 응답 데이터:', response.data); // 응답 확인
         return response.data.content;
     } catch (error) {
         console.error('회원 목록을 가져오는 중 오류 발생:', error);
@@ -18,7 +17,6 @@ export const getReviews = async () => {
 export const updateReview = async () => {
     try {
         const response = await axios.get(`${apiUrl}/admin/reviews`);
-        console.log('백엔드 응답 데이터:', response.data); // 응답 확인
         return response.data.content;
     } catch (error) {
         console.error('회원 목록을 가져오는 중 오류 발생:', error);
@@ -29,7 +27,6 @@ export const updateReview = async () => {
 export const deleteReview = async () => {
     try {
         const response = await axios.get(`${apiUrl}/admin/reviews`);
-        console.log('백엔드 응답 데이터:', response.data); // 응답 확인
         return response.data.content;
     } catch (error) {
         console.error('회원 목록을 가져오는 중 오류 발생:', error);

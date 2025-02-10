@@ -45,7 +45,6 @@ const Members = () => {
 
     // 수정된 회원 정보 저장
     const handleSave = async () => {
-        console.log("editingMember", editingMember);
         const updatedMember = await updateMember(editingMember);
         setMembers(members.map(member =>
             member.id === updatedMember.id ? updatedMember : member

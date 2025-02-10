@@ -1,17 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 const Restaurant = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const mapRef = useRef(null);
-    const [currentPosition, setCurrentPosition] = useState({ lat: null, lon: null });
-    const { place, resultMenuId } = location.state || {};
+    const [currentPosition, setCurrentPosition] = useState({lat: null, lon: null});
+    const {place, resultMenuId} = location.state || {};
 
     useEffect(() => {
-        if (place) {
-            console.log("식당위치", place.x, place.y);
-        }
     }, [place]); // place 값이 처음 설정될 때만 실행
 
     useEffect(() => {
@@ -20,7 +17,7 @@ const Restaurant = () => {
                 (position) => {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
-                    setCurrentPosition({ lat: latitude, lon: longitude });
+                    setCurrentPosition({lat: latitude, lon: longitude});
                 },
                 (error) => {
                     console.error("위치 정보를 가져오는 데 실패했습니다.", error);
@@ -53,7 +50,6 @@ const Restaurant = () => {
 
             // 내 위치 마커
             const myPosition = new window.kakao.maps.LatLng(currentPosition.lat, currentPosition.lon);
-            console.log("내위치는", currentPosition.lon, currentPosition.lat)
             const markerImage = new window.kakao.maps.MarkerImage(
                 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 이미지 URL
                 new window.kakao.maps.Size(30, 40) // 이미지 크기 (30x40)
@@ -86,7 +82,6 @@ const Restaurant = () => {
             // 식당 위치 마커
             if (place && place.x && place.y) {
                 const restaurantPosition = new window.kakao.maps.LatLng(place.y, place.x); // place.x, place.y는 (경도, 위도) 형식
-                console.log("식당 위치는", place.y, place.x)
                 const restaurantMarkerImage = new window.kakao.maps.MarkerImage(
                     'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png', // 이미지 URL
                     new window.kakao.maps.Size(50, 50) // 이미지 크기 (30x40)
@@ -108,9 +103,10 @@ const Restaurant = () => {
                 `;
 
                 function openKakaoMapRoute() {
-                        const url = `https://m.map.kakao.com/actions/routeView?ex=484093&ey=1107380&endLoc=${place.place_name}&ids=%2CP${place.id}`;
-                        window.open(url, '_blank');
-                    }
+                    const url = `https://m.map.kakao.com/actions/routeView?ex=484093&ey=1107380&endLoc=${place.place_name}&ids=%2CP${place.id}`;
+                    window.open(url, '_blank');
+                }
+
                 window.openKakaoMapRoute = openKakaoMapRoute;
 
                 const restaurantOverlay = new window.kakao.maps.CustomOverlay({

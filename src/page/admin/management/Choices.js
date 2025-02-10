@@ -64,7 +64,6 @@ const Choices = () => {
 
     // 수정된 항목 저장
     const handleSave = async () => {
-        console.log("editingChoice",editingChoice );
         const updatedChoice = await updateChoice(editingChoice); // 서버에 업데이트 요청
         setChoices(choices.map(choice =>
             choice.id === updatedChoice.id ? updatedChoice : choice
@@ -96,7 +95,6 @@ const Choices = () => {
         }
 
         try {
-            console.log(newChoice);
             await createChoice(newChoice);
             setShowCreateForm(false);
             setError('');

@@ -33,8 +33,6 @@ const hideReview = async (review) => {
                 withCredentials: true,
             });
 
-            console.log(response);
-
             if (response.data.success === true) {
                 window.location.reload(); // 페이지 새로 고침
                 alert("리뷰를 숨겼습니다.");
@@ -61,8 +59,6 @@ const unhideReview = async (review) => {
                 },
                 withCredentials: true,
             });
-
-            console.log(response);
 
             if (response.data.success === true) {
                 window.location.reload(); // 페이지 새로 고침
