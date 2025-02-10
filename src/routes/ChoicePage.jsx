@@ -19,8 +19,6 @@ const ChoicePage = () => {
   }, []);
 
   useEffect(() => {
-    console.log("pushData", pushData);
-    console.log("length", choice.length);
     if(choice.length > 2){
       navigate('/result', {
         state: { selection, pushData }
@@ -32,12 +30,10 @@ const ChoicePage = () => {
 
   useEffect(() => {
     if (nowData) {
-      console.log("New Survey Data: ", nowData); // nowData가 업데이트될 때마다 실행
     }
   }, [nowData])
 
   const addChoiceAndPush = (choice, push, selection) => {
-    console.log("addChoiceAndPush");
     setChoice(choicePrev => [...choicePrev, choice]);
     setPushData(pushPrev => [...pushPrev, push]);
     setSelection(selectionPrev => [...selectionPrev, selection]);

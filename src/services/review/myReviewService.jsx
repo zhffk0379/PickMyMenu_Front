@@ -1,8 +1,6 @@
 import axiosInstance from "../../utils/axios";
 
 export const getMyReviewList = async (page, size = 10, sort ) => {
-    console.log("sort================");
-    console.log("sort", sort);
     const response = await axiosInstance.get("/review/myReview", {
         params: {page: page, size:size, sort:"createdDate,desc"},
         withCredentials: true

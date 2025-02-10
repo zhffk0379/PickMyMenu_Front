@@ -16,7 +16,6 @@ const RankTable = ({ title, type, data, callback }) => {
         getRankRestaurant({ type: type, menuName: menuName }).then((data) => {
             setRestaurantRankData(data.data);
             setIsModalOpen(true); // 수정: 모달 열기
-            console.log("setRestaurantRankData", data.data);
         });
     };
 

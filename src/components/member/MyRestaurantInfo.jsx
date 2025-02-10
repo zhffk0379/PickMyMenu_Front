@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import MyResMap from "../map/MyResMap";
-import { Container, Spinner } from 'react-bootstrap';
+import {Container, Spinner} from 'react-bootstrap';
 
 function MyRestaurantInfo() {
     const [restaurantData, setRestaurantData] = useState(null); // 식당 데이터 상태
@@ -17,7 +17,6 @@ function MyRestaurantInfo() {
 
                 if (response.data.success) {
                     setRestaurantData(response.data.data); // 데이터 설정
-                    console.log(response.data.data)
                 } else {
                     throw new Error("데이터를 가져오지 못했습니다.");
                 }
@@ -32,9 +31,9 @@ function MyRestaurantInfo() {
     }, []);
 
     const renderSpinner = (message) => (
-        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <Container className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
             <div className="text-center">
-                <Spinner animation="border" variant="primary" role="status" />
+                <Spinner animation="border" variant="primary" role="status"/>
                 <div className="mt-3">{message}</div>
             </div>
         </Container>
@@ -45,7 +44,7 @@ function MyRestaurantInfo() {
 
     return (
         <div>
-            <MyResMap restaurantData={restaurantData} />
+            <MyResMap restaurantData={restaurantData}/>
         </div>
     );
 }

@@ -127,8 +127,6 @@ const KakaoMap = ({ places, center }) => {
         // 먼저 JWT 토큰을 확인하는 요청을 보냅니다
         axios.post(`${apiUrl}/member/jwtChk`, {}, { withCredentials: true })
             .then((response) => {
-                // 토큰이 유효한 경우
-                console.log(response.data);  // 인증 성공 메시지
 
                 // /restaurant로 이동하면서 place 데이터를 상태로 넘깁니다
                 const requestData = {
@@ -145,6 +143,21 @@ const KakaoMap = ({ places, center }) => {
                     })
                     .catch((error) => {
                         console.error('POST 요청 중 오류 발생:', error);
+                    });
+
+                // 이용하기 클릭하면 리뷰 카운트 다시 불러서 헤더에 설정
+                axios.get(`${apiUrl}/review/count`, {
+                    withCredentials: true
+                })
+                    .then((response) => {
+                        if (response.status === 200) {
+                            const reviewCount = response.data.data;
+                            setReviewCount(reviewCount); // 상태에 저장
+                            localStorage.setItem('reviewCount', reviewCount); // localStorage에 저장
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("리뷰 카운트를 가져오는 중 오류 발생:", error);
                     });
 
             })

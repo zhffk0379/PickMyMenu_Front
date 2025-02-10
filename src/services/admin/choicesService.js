@@ -6,7 +6,6 @@ export const getChoices = async () => {
         const response = await axios.get(`${apiUrl}/admin/choices`, {
             withCredentials: true
         });
-        console.log('백엔드 응답 데이터:', response.data); // 응답 확인
         return response.data;
     } catch (error) {
         console.error('회원 목록을 가져오는 중 오류 발생:', error);
@@ -18,7 +17,6 @@ export const updateChoice = async (choice) => {
     try {
         const response = await axios.put(`${apiUrl}/v1/choice/${choice.id}`, choice,
             {withCredentials: true});
-        console.log('백엔드 응답 데이터:', response.data); // 응답 확인
         return response.data;
     } catch (error) {
         console.error('회원 목록을 가져오는 중 오류 발생:', error);
@@ -30,7 +28,6 @@ export const createChoice = async (choice) => {
     try {
         const response = await axios.post(`${apiUrl}/v1/choice`, choice,
             {withCredentials: true});
-        console.log('백엔드 응답 데이터:', response.data); // 응답 확인
         return response.data;
     } catch (error) {
         console.error('회원 목록을 가져오는 중 오류 발생:', error);
@@ -42,7 +39,6 @@ export const deleteChoice = async (choice) => {
     try {
         const response = await axios.delete(`${apiUrl}/v1/choice/${choice.id}`,
             {withCredentials: true});
-        console.log('백엔드 응답 데이터:', response.data); // 응답 확인
         return response.data;
     } catch (error) {
         console.error('회원 목록을 가져오는 중 오류 발생:', error);
