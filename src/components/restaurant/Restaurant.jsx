@@ -1,5 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
+import axios from "axios";
+import {useAuth} from "../../contexts/AuthContext";
 
 const Restaurant = () => {
     const location = useLocation();
@@ -7,8 +9,22 @@ const Restaurant = () => {
     const mapRef = useRef(null);
     const [currentPosition, setCurrentPosition] = useState({lat: null, lon: null});
     const {place, resultMenuId} = location.state || {};
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const { setReviewCount } = useAuth();
 
     useEffect(() => {
+        axios.get(`${apiUrl}/review/count`, {
+            withCredentials: true
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    const reviewCount = response.data.data;
+                    setReviewCount(reviewCount); // 상태에 저장
+                }
+            })
+            .catch((error) => {
+                console.error("리뷰 카운트를 가져오는 중 오류 발생:", error);
+            });
     }, [place]); // place 값이 처음 설정될 때만 실행
 
     useEffect(() => {

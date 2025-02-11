@@ -13,6 +13,24 @@ const Header = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchReviewCount = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/review/count`, { withCredentials: true });
+        if (response.status === 200) {
+          setReviewCount(response.data.data);
+        }
+      } catch (error) {
+        console.error("리뷰 카운트 조회 오류:", error);
+      }
+    };
+
+    // 🔹 인증된 경우에만 `reviewCount` 가져오기
+    if (isAuthenticated) {
+      fetchReviewCount();
+    }
+  }, [isAuthenticated]);
+
   // 드롭다운 토글 함수
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -35,32 +53,25 @@ const Header = () => {
   }, [dropdownOpen]);
 
 
-  useEffect(() => {
-    // 페이지 새로 고침 시 localStorage에서 리뷰 카운트를 가져와 상태에 저장
-    const savedReviewCount = localStorage.getItem('reviewCount');
-    if (savedReviewCount) {
-      setReviewCount(savedReviewCount);
-    }
-  }, []); // 초기 로딩 시 한 번만 실행
-
-  useEffect(() => {
-    if (reviewCount !== null) {
-      localStorage.setItem('reviewCount', reviewCount);
-    }
-  }, [reviewCount]); // reviewCount가 바뀔 때마다 localStorage에 저장
 
   const handleLogout = async () => {
+    const confirmLogout = window.confirm("정말 로그아웃 하시겠습니까?");
+
+    if (!confirmLogout) return;
+
     try {
       // 서버에 로그아웃 요청 보내기
       await axios.post(`${process.env.REACT_APP_API_URL}/member/logout`, {}, { withCredentials: true });
 
-      // 클라이언트 상태 처리
-      logout(); // 로그아웃 처리
+      // 클라이언트 상태 초기화
+      logout(); // 로그인 상태 초기화
+      setReviewCount(0);
       document.cookie = 'token=; Max-Age=-99999999;'; // 쿠키 삭제
     } catch (error) {
       console.error('로그아웃 오류:', error);
     }
   };
+
 
   const isLogin = (e) => {
     if(!isAuthenticated){
@@ -87,7 +98,7 @@ const Header = () => {
                     onClick={toggleDropdown}
                     aria-expanded={dropdownOpen}
                 >
-                  {isAuthenticated && reviewCount > 0 && (
+                  {reviewCount > 0 && (
                       <span className="headerBadge">{reviewCount}</span> // 뱃지 표시
                   )}
                   <img src="https://hhjnn92.synology.me/Project/PickMyMenu/icon.png" className="auth-img"/>

@@ -12,7 +12,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [reviewCount, setReviewCount] = useState(0); // 리뷰 카운트 상태 추가
+    const [reviewCount, setReviewCount] = useState(0); // 리뷰 카운트 추가
 
     // 로그인 상태 설정 함수
     const login = () => {
@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     // 로그아웃 상태 설정 함수
     const logout = () => {
         setIsAuthenticated(false);
+        setReviewCount(0)
     };
 
     // 로그아웃 처리 함수
