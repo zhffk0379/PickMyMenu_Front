@@ -34,6 +34,7 @@ function App() {
             <Route path="/join" element={<Join />} />
             <Route path="/login" element={<Login />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/delete" element={<Delete />} />
             <Route path="/myinfo" element={<MyInfo />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/passwordverify" element={<PasswordVerify />} />
