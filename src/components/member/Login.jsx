@@ -26,8 +26,9 @@ function Login() {
       const { token, name, role } = response.data.data;
 
       document.cookie = `token=${token}; max-age=${7 * 24 * 60 * 60}; path=/`;
+
       localStorage.setItem('role', role); // 관리자/사용자 구분용 role localStroage에 저장
-      console.log("rolerole : "+role)
+
       // 로그인 후 리뷰 카운트 가져오기
       axios.get(`${apiUrl}/review/count`, {
         withCredentials: true

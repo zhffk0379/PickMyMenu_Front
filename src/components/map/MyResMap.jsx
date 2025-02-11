@@ -36,13 +36,32 @@ const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`;
         document.head.appendChild(script);
 
+        let lat = null;
+        let lng = null;
+        const lastRestaurant = restaurantData[restaurantData.length -1]
+        if (lastRestaurant) {
+            lat = lastRestaurant.y;
+            lng = lastRestaurant.x;
+        } else if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                },
+                (error) => {
+                    console.error("Geolocation error:", error);
+                }
+            );
+        } else {
+            console.error("Geolocation is not supported.");
+        }
+
         script.onload = () => {
             if (window.kakao && window.kakao.maps) {
                 window.kakao.maps.load(() => {
-                    // 서울 위치로 초기화
                     const map = new window.kakao.maps.Map(mapRef.current, {
-                        center: new window.kakao.maps.LatLng(37.5665, 126.978), // 서울 위치
-                        level: 7, // zoom level
+                        center: new window.kakao.maps.LatLng(lat, lng),
+                        level: 5, // zoom level
                     });
 
                     if (Array.isArray(restaurantData)) {

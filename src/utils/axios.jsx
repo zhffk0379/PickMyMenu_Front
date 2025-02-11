@@ -16,7 +16,6 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    console.log('Request Config:', config); // 요청 정보를 로깅
     return config; // 수정된 요청 객체 반환
   },
   (error) => {
@@ -28,7 +27,6 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log('Response Data:', response.data); // 응답 데이터를 로깅
     return response; // 응답 객체 그대로 반환 또는 가공 후 반환
   },
   (error) => {
