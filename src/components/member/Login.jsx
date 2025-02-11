@@ -26,6 +26,7 @@ function Login() {
       const { token, name, role } = response.data.data;
 
       document.cookie = `token=${token}; max-age=${7 * 24 * 60 * 60}; path=/`;
+      localStorage.setItem("token", token);
 
       localStorage.setItem('role', role); // 관리자/사용자 구분용 role localStroage에 저장
 
@@ -54,6 +55,10 @@ function Login() {
         setErrorMessage('로그인 요청 중 오류가 발생했습니다.');
       }
     }
+  };
+
+  const handleKakaoLogin = () => {
+    window.location.href = `${process.env.REACT_APP_API_URL}/v1/auth/kakao`;
   };
 
   return (
@@ -90,6 +95,14 @@ function Login() {
               </Form>
 
               {errorMessage && <p className="text-danger text-center login-mt-3">{errorMessage}</p>}
+              {/* 카카오 로그인 버튼 추가 */}
+              <Button
+                  variant="warning"
+                  onClick={handleKakaoLogin}
+                  className="login-w-100 mt-3"
+              >
+                카카오 로그인
+              </Button>
 
               <div className="d-flex justify-content-between login-mt-3">
                 <a href="/forgot-username" className="login-a">이메일 찾기</a>
