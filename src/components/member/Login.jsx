@@ -58,7 +58,11 @@ function Login() {
   };
 
   const handleKakaoLogin = () => {
-    window.location.href = `${process.env.REACT_APP_API_URL}/v1/auth/kakao`;
+    window.open(
+        `${process.env.REACT_APP_API_URL}/v1/auth/kakao`,
+        "_blank",
+        "width=500,height=600,scrollbars=yes"
+    );
   };
 
   return (
@@ -97,11 +101,20 @@ function Login() {
               {errorMessage && <p className="text-danger text-center login-mt-3">{errorMessage}</p>}
               {/* 카카오 로그인 버튼 추가 */}
               <Button
-                  variant="warning"
                   onClick={handleKakaoLogin}
                   className="login-w-100 mt-3"
+                  style={{
+                    backgroundColor: "#FEE500", /* 카카오톡 옐로우 */
+                    color: "#3C1E1E", /* 카카오톡 브라운 */
+                    border: "none",
+                    padding: "10px 20px",
+                    fontWeight: "bold",
+                    borderRadius: "5px",
+                    cursor: "pointer"
+                  }}
               >
-                카카오 로그인
+                <img style={{width: "25px", height: "25px"}} src={"https://mblogthumb-phinf.pstatic.net/MjAyMTAxMjNfNTQg/MDAxNjExNDExMzcyOTg3.eMRztTwPAYwiU6zmnhb9bbdFM6KTfbJw4M03LzZkU_og.yPolaUu7CAikkwRvd9Omo5qRTYGoe6DmYELmPIZXWvgg.PNG.jmin1318/%EC%9E%90%EC%82%B0_184x.png?type=w800"}/>
+                　카카오 로그인
               </Button>
 
               <div className="d-flex justify-content-between login-mt-3">

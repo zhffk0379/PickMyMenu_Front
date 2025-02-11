@@ -221,7 +221,6 @@ const MyResMap = ({restaurantData}) => {  // props를 제대로 받도록 수정
                         if (response.status === 200) {
                             const reviewCount = response.data.data;
                             setReviewCount(reviewCount); // 상태에 저장
-                            localStorage.setItem('reviewCount', reviewCount); // localStorage에 저장
                         }
                     })
                     .catch((error) => {
