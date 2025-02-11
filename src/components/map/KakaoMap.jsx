@@ -1,24 +1,24 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, {useEffect, useState, useRef} from 'react';
+import {motion, AnimatePresence} from "framer-motion";
+import {useLocation, useNavigate} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import axios from 'axios';
 import {useAuth} from "../../contexts/AuthContext";
 
-const KakaoMap = ({ places, center }) => {
+const KakaoMap = ({places, center}) => {
     const mapRef = useRef(null);
     const [selectedPlaceUrl, setSelectedPlaceUrl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showList, setShowList] = useState(false);
     const location = useLocation();
-    const { keyword, resultMenuId } = location.state || {};
+    const {keyword, resultMenuId} = location.state || {};
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
     const pythonUrl = process.env.REACT_APP_PYTHON_API_URL;
     const [promptResponse, setPromptResponse] = useState(null); // 응답 데이터를 저장할 상태 추가
 
-    const { setReviewCount } = useAuth();
+    const {setReviewCount} = useAuth();
 
     useEffect(() => {
         const lat = center.latitude;
@@ -109,63 +109,39 @@ const KakaoMap = ({ places, center }) => {
 
     // 식당 이용하기 클릭 함수
     const handleApiCall = (place) => {
-        // 이용하기 클릭하면 리뷰 카운트 다시 불러서 헤더에 설정
-        axios.get(`${apiUrl}/review/count`, {
-            withCredentials: true
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    const reviewCount = response.data.data;
-                    setReviewCount(reviewCount); // 상태에 저장
-                    localStorage.setItem('reviewCount', reviewCount); // localStorage에 저장
-                }
-            })
-            .catch((error) => {
-                console.error("리뷰 카운트를 가져오는 중 오류 발생:", error);
-            });
-
-        // 먼저 JWT 토큰을 확인하는 요청을 보냅니다
         axios.post(`${apiUrl}/member/jwtChk`, {}, { withCredentials: true })
-            .then((response) => {
-
-                // /restaurant로 이동하면서 place 데이터를 상태로 넘깁니다
+            .then(() => {
+                // 로그인 확인 성공 후, restaurant 정보 저장
                 const requestData = {
                     ...place,
                     resId: place.id,
                     resultMenuId: resultMenuId
                 };
 
-                // restaurant saveInfo API 요청
                 axios.post(`${apiUrl}/restaurant/saveInfo`, requestData)
-                    .then((response) => {
-                        // 성공적으로 저장 후 restaurant 페이지로 이동
+                    .then(() => {
+
+                        axios.get(`${apiUrl}/review/count`, { withCredentials: true })
+                            .then((response) => {
+                                if (response.status === 200) {
+                                    const reviewCount = response.data.data;
+                                    setReviewCount(reviewCount); // Context 상태 업데이트
+                                }
+                            })
+                            .catch((error) => {
+                                console.error("리뷰 카운트를 가져오는 중 오류 발생:", error);
+                            });
+
                         navigate('/restaurant', { state: { place, resultMenuId } });
                     })
                     .catch((error) => {
                         console.error('POST 요청 중 오류 발생:', error);
                     });
-
-                // 이용하기 클릭하면 리뷰 카운트 다시 불러서 헤더에 설정
-                axios.get(`${apiUrl}/review/count`, {
-                    withCredentials: true
-                })
-                    .then((response) => {
-                        if (response.status === 200) {
-                            const reviewCount = response.data.data;
-                            setReviewCount(reviewCount); // 상태에 저장
-                            localStorage.setItem('reviewCount', reviewCount); // localStorage에 저장
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("리뷰 카운트를 가져오는 중 오류 발생:", error);
-                    });
-
             })
             .catch((error) => {
-                // 인증 실패시, 로그인 페이지로 이동하고 오류 메시지를 알림
                 console.error('로그인 필요:', error.response?.data || error.message);
                 alert('로그인이 필요한 서비스입니다.');
-                navigate('/login');  // 로그인 페이지로 리다이렉트
+                navigate('/login');
             });
     };
 
@@ -178,12 +154,18 @@ const KakaoMap = ({ places, center }) => {
             return;
         }
 
-        navigate('/restaurantInfo', { state: { data: promptResponse, keyword: keyword } });
+        navigate('/restaurantInfo', {state: {data: promptResponse, keyword: keyword}});
     }
 
 
     return (
-        <div style={{display: "flex", width: "100%", height: "calc(100vh - 85px)", flexDirection: "column", overflow: "hidden"}}>
+        <div style={{
+            display: "flex",
+            width: "100%",
+            height: "calc(100vh - 85px)",
+            flexDirection: "column",
+            overflow: "hidden"
+        }}>
             {/* 지도 */}
             <div ref={mapRef} style={{
                 flex: 1,
@@ -335,10 +317,10 @@ const KakaoMap = ({ places, center }) => {
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 50 }}
-                        transition={{ type: "spring", stiffness: 100 }}
+                        initial={{opacity: 0, y: 50}}
+                        animate={{opacity: 1, y: 0}}
+                        exit={{opacity: 0, y: 50}}
+                        transition={{type: "spring", stiffness: 100}}
                         style={{
                             position: "fixed",
                             top: 0,
@@ -367,16 +349,16 @@ const KakaoMap = ({ places, center }) => {
                             }}
                         >
                             {/* Iframe or Placeholder */}
-                            <div style={{ flex: 1, overflow: "hidden" }}>
+                            <div style={{flex: 1, overflow: "hidden"}}>
                                 {selectedPlaceUrl ? (
                                     <iframe
                                         src={selectedPlaceUrl}
-                                        style={{ width: "100%", height: "100%", border: "none" }}
+                                        style={{width: "100%", height: "100%", border: "none"}}
                                         title="Place Info"
                                         frameBorder="0"
                                     />
                                 ) : (
-                                    <p style={{ textAlign: "center", margin: "20px" }}>
+                                    <p style={{textAlign: "center", margin: "20px"}}>
                                         장소 정보가 없습니다.
                                     </p>
                                 )}
